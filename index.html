@@ -13,12 +13,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css"> <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbar-main" data-bs-offset="100">
+
+    <div id="vanta-bg"></div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -39,8 +42,10 @@
                         <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                         <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
                         <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
+                        <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                        <li class="nav-item ms-lg-3 mt-2 mt-lg-0"> <button id="theme-toggle" class="btn theme-toggle-btn" type="button" aria-label="Switch to dark theme">
+                        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                            <button id="theme-toggle" class="btn theme-toggle-btn" type="button" aria-label="Switch to dark theme">
                                 <i class="bi bi-moon-stars-fill"></i>
                             </button>
                         </li>
@@ -164,117 +169,20 @@
 
         <section id="projects" class="section-padding">
             <div class="container">
-                <div class="section-title text-center" data-aos="fade-up">
-                    <h2 class="fw-bold">Featured Projects</h2>
-                    <p>A selection of work showcasing my analytical and technical skills.</p>
-                    <hr class="title-hr mx-auto">
-                    <div id="project-filters" class="my-4" role="group" aria-label="Project Filter Options">
-                        <button class="btn btn-outline-primary btn-sm filter-btn active" data-filter="all" aria-pressed="true">All</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="analysis" aria-pressed="false">Analysis</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="automation" aria-pressed="false">Automation</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="visualization" aria-pressed="false">Visualization</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="python" aria-pressed="false">Python</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="tableau" aria-pressed="false">Tableau</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="cloud" aria-pressed="false">Cloud</button>
-                        <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="web-app" aria-pressed="false">Web App</button>
-                    </div>
-                </div>
-                <div class="row g-4 justify-content-center project-gallery">
-                    <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="analysis,automation,visualization,python,tableau,cloud" data-aos="fade-up" data-aos-delay="100">
-                        <article class="card project-card flex-fill h-100">
-                             <img src="marketing-dashboard.png" class="card-img-top project-image" alt="Dashboard showing marketing campaign KPIs" loading="lazy">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">Marketing Campaign Insights & Automation</h5>
-                                <p class="card-text small flex-grow-1">Enhanced campaign ROI by 10% through predictive modeling (Python) and performance analysis (SQL, GA). Automated tracking using Airflow & AWS Glue. Built insightful Tableau dashboards.</p>
-                                <div class="mt-auto text-center pt-3">
-                                    <a href="project-marketing.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Marketing Campaign Project">Details <i class="bi bi-arrow-right-short"></i></a>
-                                    <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Marketing Project Code on GitHub">GitHub <i class="bi bi-github"></i></a>
-                                </div>
-                            </div>
-                        </article>
-                     </div>
-                    <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="visualization,python,web-app" data-aos="fade-up" data-aos-delay="200">
-                        <article class="card project-card flex-fill h-100">
-                            <img src="project-one.png" class="card-img-top project-image" alt="Screenshot of Excel Viz Pro web application" loading="lazy">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">Excel Visualization Web App (Excel Viz Pro)</h5>
-                                <p class="card-text small flex-grow-1">Developed a user-friendly Python/Streamlit app for instant Excel-to-visualization using Pandas, Plotly, and NumPy. Features dynamic chart generation and report downloads.</p>
-                                <div class="mt-auto text-center pt-3">
-                                    <a href="project-excel-viz.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Excel Visualization Web App Project">Details <i class="bi bi-arrow-right-short"></i></a>
-                                    <a href="https://patelmeet1011.github.io/ExcelVizProIt485/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success me-2" aria-label="View Live Demo of ExcelVizPro">Live Demo <i class="bi bi-box-arrow-up-right"></i></a>
-                                    <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Excel Viz Pro Code on GitHub">GitHub <i class="bi bi-github"></i></a>
-                                </div>
-                            </div>
-                        </article>
-                     </div>
-                    <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="analysis,visualization,tableau" data-aos="fade-up" data-aos-delay="300">
-                        <article class="card project-card flex-fill h-100">
-                            <img src="images/tableau-project-placeholder.jpg" class="card-img-top project-image" alt="Tableau dashboard showing multi-domain analysis" loading="lazy">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">Multi-Domain Data Analysis (Tableau)</h5>
-                                <p class="card-text small flex-grow-1">Led Tableau-based analysis (UMass IT371) across retail, gaming, & emissions data. Improved processing efficiency (25%) and forecasting accuracy (20%) via interactive dashboards.</p>
-                                <div class="mt-auto text-center pt-3">
-                                    <a href="project-tableau-multi-domain.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Tableau Multi-Domain Analysis Project">Details <i class="bi bi-arrow-right-short"></i></a>
-                                    <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Tableau Project Code on GitHub">GitHub <i class="bi bi-github"></i></a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                    </div>
-            </div>
-        </section>
+                <div class="section-title text-center" data-aos="fade-up"> <h2 class="fw-bold">Featured Projects</h2> <p>A selection of work showcasing my analytical and technical skills.</p> <hr class="title-hr mx-auto"> <div id="project-filters" class="my-4" role="group" aria-label="Project Filter Options"> <button class="btn btn-outline-primary btn-sm filter-btn active" data-filter="all" aria-pressed="true">All</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="analysis" aria-pressed="false">Analysis</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="automation" aria-pressed="false">Automation</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="visualization" aria-pressed="false">Visualization</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="python" aria-pressed="false">Python</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="tableau" aria-pressed="false">Tableau</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="cloud" aria-pressed="false">Cloud</button> <button class="btn btn-outline-primary btn-sm filter-btn" data-filter="web-app" aria-pressed="false">Web App</button> </div> </div>
+                 <div class="row g-4 justify-content-center project-gallery">
+                      <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="analysis,automation,visualization,python,tableau,cloud" data-aos="fade-up" data-aos-delay="100"> <article class="card project-card flex-fill h-100"> <img src="marketing-dashboard.png" class="card-img-top project-image" alt="Dashboard showing marketing campaign KPIs" loading="lazy"> <div class="card-body d-flex flex-column"> <h5 class="card-title fw-bold">Marketing Campaign Insights & Automation</h5> <p class="card-text small flex-grow-1">Enhanced campaign ROI by 10% through predictive modeling (Python) and performance analysis (SQL, GA). Automated tracking using Airflow & AWS Glue. Built insightful Tableau dashboards.</p> <div class="mt-auto text-center pt-3"> <a href="project-marketing.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Marketing Campaign Project">Details <i class="bi bi-arrow-right-short"></i></a> <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Marketing Project Code on GitHub">GitHub <i class="bi bi-github"></i></a> </div> </div> </article> </div>
+                      <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="visualization,python,web-app" data-aos="fade-up" data-aos-delay="200"> <article class="card project-card flex-fill h-100"> <img src="project-one.png" class="card-img-top project-image" alt="Screenshot of Excel Viz Pro web application" loading="lazy"> <div class="card-body d-flex flex-column"> <h5 class="card-title fw-bold">Excel Visualization Web App (Excel Viz Pro)</h5> <p class="card-text small flex-grow-1">Developed a user-friendly Python/Streamlit app for instant Excel-to-visualization using Pandas, Plotly, and NumPy. Features dynamic chart generation and report downloads.</p> <div class="mt-auto text-center pt-3"> <a href="project-excel-viz.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Excel Visualization Web App Project">Details <i class="bi bi-arrow-right-short"></i></a> <a href="https://patelmeet1011.github.io/ExcelVizProIt485/" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success me-2" aria-label="View Live Demo of ExcelVizPro">Live Demo <i class="bi bi-box-arrow-up-right"></i></a> <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Excel Viz Pro Code on GitHub">GitHub <i class="bi bi-github"></i></a> </div> </div> </article> </div>
+                      <div class="col-md-6 col-lg-4 project-item d-flex" data-tags="analysis,visualization,tableau" data-aos="fade-up" data-aos-delay="300"> <article class="card project-card flex-fill h-100"> <img src="images/tableau-project-placeholder.jpg" class="card-img-top project-image" alt="Tableau dashboard showing multi-domain analysis" loading="lazy"> <div class="card-body d-flex flex-column"> <h5 class="card-title fw-bold">Multi-Domain Data Analysis (Tableau)</h5> <p class="card-text small flex-grow-1">Led Tableau-based analysis (UMass IT371) across retail, gaming, & emissions data. Improved processing efficiency (25%) and forecasting accuracy (20%) via interactive dashboards.</p> <div class="mt-auto text-center pt-3"> <a href="project-tableau-multi-domain.html" class="btn btn-sm btn-primary me-2" aria-label="Learn more about the Tableau Multi-Domain Analysis Project">Details <i class="bi bi-arrow-right-short"></i></a> <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View Tableau Project Code on GitHub">GitHub <i class="bi bi-github"></i></a> </div> </div> </article> </div>
+                 </div>
+             </div>
+         </section>
 
         <section id="experience" class="section-padding bg-light">
-            <div class="container">
-                <div class="section-title text-center" data-aos="fade-up">
-                    <h2 class="fw-bold">Professional Journey</h2>
-                    <p>Where I've applied and honed my analytical skills.</p>
-                    <hr class="title-hr mx-auto">
-                 </div>
-                <div class="row justify-content-center">
-                     <div class="col-lg-10 col-xl-9">
-                         <ul class="timeline">
-                            <li data-aos="fade-right" data-aos-anchor-placement="top-bottom">
-                                <div class="timeline-badge primary"><i class="bi bi-briefcase-fill"></i></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title h5">Data Analyst</h4>
-                                        <p><small class="text-muted"><i class="bi bi-building me-1"></i> Mobiquity Inc., Waltham, MA | <i class="bi bi-calendar-event ms-2 me-1"></i> Jan 2024 – Present</small></p>
-                                    </div>
-                                    <div class="timeline-body small">
-                                        <p>Driving data-driven decisions by translating client requirements into actionable insights using SQL, BigQuery, and Redshift. Analyzing user engagement to enhance digital product performance, achieving a 15% increase in customer retention. Evaluating campaign effectiveness (Google Analytics, SQL) leading to 25% higher engagement and 20% ROI boost. Developing interactive Tableau/Power BI dashboards for real-time KPI tracking. Applying A/B testing and predictive modeling (Python/R) to improve campaign outcomes. Building scalable data workflows (Airflow, AWS Glue) and designing secure cloud solutions (AWS, Azure, GCP) while ensuring HIPAA/GDPR compliance.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="timeline-inverted" data-aos="fade-left" data-aos-anchor-placement="top-bottom">
-                                 <div class="timeline-badge warning"><i class="bi bi-person-workspace"></i></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title h5">Data Analyst Intern</h4>
-                                        <p><small class="text-muted"><i class="bi bi-building me-1"></i> Novus Logics, Ahmedabad, India | <i class="bi bi-calendar-event ms-2 me-1"></i> Jun 2022 – Aug 2022</small></p>
-                                    </div>
-                                    <div class="timeline-body small">
-                                        <p>Significantly improved operational efficiency by optimizing SQL queries, reducing processing time by 60%. Managed the full data lifecycle including collection, cleaning, and preprocessing to ensure data integrity. Performed Exploratory Data Analysis (EDA) to uncover key trends and patterns. Developed and maintained Tableau dashboards for stakeholder decision support. Automated routine reporting tasks using advanced SQL, enhancing data retrieval efficiency by 30%. Provided technical support and managed service tickets, maintaining high client satisfaction.</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li data-aos="fade-right" data-aos-anchor-placement="top-bottom">
-                                <div class="timeline-badge info"><i class="bi bi-mortarboard-fill"></i></div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h4 class="timeline-title h5">Education: B.S. Information Technology</h4>
-                                        <p><small class="text-muted"><i class="bi bi-building me-1"></i> University of Massachusetts Boston | <i class="bi bi-calendar-event ms-2 me-1"></i> Graduated Aug 2024</small></p>
-                                    </div>
-                                    <div class="timeline-body small">
-                                        <p>Concentration in Business Intelligence. GPA: 3.6/4.0. Relevant Coursework: Data Analysis & Visualization, Database Management, Business Analytics, Cloud Computing. Recognized on Dean's List (2022-2024).</p>
-                                    </div>
-                                </div>
-                            </li>
-                         </ul>
-                     </div>
-                </div>
-            </div>
-        </section>
+              <div class="container">
+                   <div class="section-title text-center" data-aos="fade-up"> <h2 class="fw-bold">Professional Journey</h2> <p>Where I've applied and honed my analytical skills.</p> <hr class="title-hr mx-auto"> </div> <div class="row justify-content-center"> <div class="col-lg-10 col-xl-9"> <ul class="timeline"> <li data-aos="fade-right" data-aos-anchor-placement="top-bottom"> <div class="timeline-badge primary"><i class="bi bi-briefcase-fill"></i></div> <div class="timeline-panel"> <div class="timeline-heading"> <h4 class="timeline-title h5">Data Analyst</h4> <p><small class="text-muted"><i class="bi bi-building me-1"></i> Mobiquity Inc., Waltham, MA | <i class="bi bi-calendar-event ms-2 me-1"></i> Jan 2024 – Present</small></p> </div> <div class="timeline-body small"> <p>Driving data-driven decisions by translating client requirements into actionable insights using SQL, BigQuery, and Redshift. Analyzing user engagement to enhance digital product performance, achieving a 15% increase in customer retention. Evaluating campaign effectiveness (Google Analytics, SQL) leading to 25% higher engagement and 20% ROI boost. Developing interactive Tableau/Power BI dashboards for real-time KPI tracking. Applying A/B testing and predictive modeling (Python/R) to improve campaign outcomes. Building scalable data workflows (Airflow, AWS Glue) and designing secure cloud solutions (AWS, Azure, GCP) while ensuring HIPAA/GDPR compliance.</p> </div> </div> </li> <li class="timeline-inverted" data-aos="fade-left" data-aos-anchor-placement="top-bottom"> <div class="timeline-badge warning"><i class="bi bi-person-workspace"></i></div> <div class="timeline-panel"> <div class="timeline-heading"> <h4 class="timeline-title h5">Data Analyst Intern</h4> <p><small class="text-muted"><i class="bi bi-building me-1"></i> Novus Logics, Ahmedabad, India | <i class="bi bi-calendar-event ms-2 me-1"></i> Jun 2022 – Aug 2022</small></p> </div> <div class="timeline-body small"> <p>Significantly improved operational efficiency by optimizing SQL queries, reducing processing time by 60%. Managed the full data lifecycle including collection, cleaning, and preprocessing to ensure data integrity. Performed Exploratory Data Analysis (EDA) to uncover key trends and patterns. Developed and maintained Tableau dashboards for stakeholder decision support. Automated routine reporting tasks using advanced SQL, enhancing data retrieval efficiency by 30%. Provided technical support and managed service tickets, maintaining high client satisfaction.</p> </div> </div> </li> <li data-aos="fade-right" data-aos-anchor-placement="top-bottom"> <div class="timeline-badge info"><i class="bi bi-mortarboard-fill"></i></div> <div class="timeline-panel"> <div class="timeline-heading"> <h4 class="timeline-title h5">Education: B.S. Information Technology</h4> <p><small class="text-muted"><i class="bi bi-building me-1"></i> University of Massachusetts Boston | <i class="bi bi-calendar-event ms-2 me-1"></i> Graduated Aug 2024</small></p> </div> <div class="timeline-body small"> <p>Concentration in Business Intelligence. GPA: 3.6/4.0. Relevant Coursework: Data Analysis & Visualization, Database Management, Business Analytics, Cloud Computing. Recognized on Dean's List (2022-2024).</p> </div> </div> </li> </ul> </div> </div>
+              </div>
+          </section>
 
         <section id="achievements" class="section-padding">
             <div class="container">
@@ -285,133 +193,105 @@
                  </div>
                  <div class="row g-4 justify-content-center">
                     <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
-                        <div class="card achievement-card flex-fill h-100">
+                        <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                             data-bs-toggle="modal" data-bs-target="#achievementModal"
+                             data-achievement-name="Dean's List (UMass Boston, 2022-2024)"
+                             data-achievement-details="Consistently recognized for academic excellence during the period 2022 – 2024. This distinction was achieved through maintaining exceptional performance, including straight A's throughout all major coursework related to Information Technology and Business Intelligence.">
                             <div class="card-body text-center d-flex flex-column align-items-center">
                                 <div class="achievement-icon-wrapper mb-3 text-warning"><i class="bi bi-award-fill"></i></div>
                                  <h5 class="card-title fw-bold">Dean's List</h5>
-                                 <p class="card-text small mt-auto">University of Massachusetts Boston<br>(2022-2024)</p>
+                                 <p class="card-text small mt-auto">UMass Boston<br>(2022-2024)</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
-                         <div class="card achievement-card flex-fill h-100">
+                         <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                              data-bs-toggle="modal" data-bs-target="#achievementModal"
+                              data-achievement-name="Google Analytics Certifications (Issued May 2023)"
+                              data-achievement-details="Completed Advanced Google Analytics, GA for Power Users, and GA for Beginners. Learned to track and analyze website performance, interpret user behavior data, configure goals, and leverage advanced features to improve website outcomes. Certificates valid through June 2027.">
                             <div class="card-body text-center d-flex flex-column align-items-center">
                                  <div class="achievement-icon-wrapper mb-3 text-primary"><i class="bi bi-google"></i></div>
                                 <h5 class="card-title fw-bold">Google Analytics Certified</h5>
-                                <p class="card-text small mb-1 mt-auto">Advanced GA</p>
-                                <p class="card-text small mb-1">GA for Power Users</p>
-                                <p class="card-text small">GA for Beginners</p>
-                                <p class="card-text small text-muted">(Issued: May 2023)</p>
+                                <p class="card-text small mb-1 mt-auto">Advanced / Power User / Beginner</p>
+                                <p class="card-text small text-muted">(May 2023)</p>
                              </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
-                        <div class="card achievement-card flex-fill h-100">
+                        <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                             data-bs-toggle="modal" data-bs-target="#achievementModal"
+                             data-achievement-name="AWS Cloud Practitioner & Training (2022-2023)"
+                             data-achievement-details="Achieved AWS Certified Cloud Practitioner (CLF-C01) certification, validating foundational knowledge of AWS Cloud concepts and services. Supplemented with AWS Essential Training for Developers (LinkedIn Learning, May 2023).">
                             <div class="card-body text-center d-flex flex-column align-items-center">
                                  <div class="achievement-icon-wrapper mb-3 text-info"><i class="bi bi-cloud-check-fill"></i></div>
                                 <h5 class="card-title fw-bold">AWS Cloud Practitioner</h5>
                                 <p class="card-text small mt-auto">AWS Certified (CLF-C01)</p>
-                                 <p class="card-text small">AWS Essential Training for Developers</p>
                                  <p class="card-text small text-muted">(2022-2023)</p>
                              </div>
                          </div>
                      </div>
                     <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="400">
-                         <div class="card achievement-card flex-fill h-100">
+                         <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                              data-bs-toggle="modal" data-bs-target="#achievementModal"
+                              data-achievement-name="SQL Certifications (HackerRank, Sep 2024)"
+                              data-achievement-details="Validated advanced SQL skills through HackerRank assessments, covering complex joins, subqueries, window functions, and optimization. Also holds the Intermediate SQL certification.">
                              <div class="card-body text-center d-flex flex-column align-items-center">
                                   <div class="achievement-icon-wrapper mb-3 text-success"><i class="bi bi-file-code-fill"></i></div>
                                  <h5 class="card-title fw-bold">SQL (HackerRank)</h5>
-                                 <p class="card-text small mb-1 mt-auto">SQL (Advanced)</p>
-                                 <p class="card-text small">SQL (Intermediate)</p>
-                                 <p class="card-text small text-muted">(Issued: Sep 2024)</p>
+                                 <p class="card-text small mb-1 mt-auto">Advanced & Intermediate</p>
+                                 <p class="card-text small text-muted">(Sep 2024)</p>
                              </div>
                         </div>
                      </div>
                     <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="500">
-                         <div class="card achievement-card flex-fill h-100">
+                         <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                              data-bs-toggle="modal" data-bs-target="#achievementModal"
+                              data-achievement-name="Other Training & Certs"
+                              data-achievement-details="Foundations: Data, Data, Everywhere (Google Coursera, Dec 2024); R Essential Training: Wrangling and Visualizing Data (LinkedIn Learning, May 2023); CompTIA Cybersecurity Analyst (CySA+) (May 2022).">
                             <div class="card-body text-center d-flex flex-column align-items-center">
                                  <div class="achievement-icon-wrapper mb-3 text-secondary"><i class="bi bi-mortarboard-fill"></i></div>
                                  <h5 class="card-title fw-bold">Other Training & Certs</h5>
-                                <p class="card-text small mb-1 mt-auto">Foundations: Data, Data, Everywhere (Google)</p>
+                                <p class="card-text small mb-1 mt-auto">Google Data Foundations</p>
                                 <p class="card-text small mb-1">R Essential Training</p>
                                 <p class="card-text small">CompTIA CySA+</p>
                              </div>
                          </div>
                      </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="contact" class="section-padding bg-light">
-            <div class="container">
-                 <div class="section-title text-center" data-aos="fade-up">
-                    <h2 class="fw-bold">Let's Connect</h2>
-                     <p>Interested in collaborating or have a question? Reach out!</p>
-                     <hr class="title-hr mx-auto">
-                 </div>
-                <div class="row justify-content-center">
-                     <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-                         <form id="contact-form" action="YOUR_FORM_ENDPOINT" method="POST" novalidate class="needs-validation">
-                            <div id="form-status" class="mb-4" role="alert" aria-live="polite"></div>
-                            <div class="row g-4 mb-4">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control form-control-lg" id="name" name="name" required placeholder="e.g., Jane Doe">
-                                    <div class="invalid-feedback">Please enter your name.</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">Your Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control form-control-lg" id="email" name="email" required placeholder="e.g., jane.doe@example.com">
-                                    <div class="invalid-feedback">Please enter a valid email address.</div>
-                                </div>
-                            </div>
-                            <div class="mb-4">
-                                <label for="subject" class="form-label">Subject</label>
-                                <input type="text" class="form-control form-control-lg" id="subject" name="subject" placeholder="e.g., Project Collaboration Opportunity">
-                            </div>
-                            <div class="mb-4">
-                                <label for="message" class="form-label">Message <span class="text-danger">*</span></label>
-                                <textarea class="form-control form-control-lg" id="message" name="message" rows="6" required placeholder="Tell me how I can help..."></textarea>
-                                <div class="invalid-feedback">Please enter your message.</div>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg px-5" id="submit-button">
-                                    <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span>
-                                    Send Message <i class="bi bi-send-fill ms-2"></i>
-                                </button>
-                            </div>
-                        </form>
-                        <div class="text-center mt-5 social-links">
-                            <p class="mb-3 fw-bold">Find me on:</p>
-                            <a href="mailto:patelmeet1348@gmail.com" class="social-icon" aria-label="Email Meet Patel" data-bs-toggle="tooltip" data-bs-placement="top" title="patelmeet1348@gmail.com"><i class="bi bi-envelope-fill"></i></a>
-                            <a href="https://www.linkedin.com/in/meet-patel-7581b31b9/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Meet Patel's LinkedIn Profile" data-bs-toggle="tooltip" data-bs-placement="top" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
-                            <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Meet Patel's GitHub Profile" data-bs-toggle="tooltip" data-bs-placement="top" title="GitHub"><i class="bi bi-github"></i></a>
-                            </div>
-                     </div>
+                 <div class="text-center mt-5" data-aos="fade-up">
+                    <a href="academics.html" class="btn btn-outline-primary">View All Academics & Certifications <i class="bi bi-arrow-right-short"></i></a>
                 </div>
             </div>
         </section>
 
+        <section id="contact" class="section-padding bg-light">
+             <div class="container">
+                  <div class="section-title text-center" data-aos="fade-up"> <h2 class="fw-bold">Let's Connect</h2> <p>Interested in collaborating or have a question? Reach out!</p> <hr class="title-hr mx-auto"> </div> <div class="row justify-content-center"> <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200"> <form id="contact-form" action="YOUR_FORM_ENDPOINT" method="POST" novalidate class="needs-validation"> <div id="form-status" class="mb-4" role="alert" aria-live="polite"></div> <div class="row g-4 mb-4"> <div class="col-md-6"> <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label> <input type="text" class="form-control form-control-lg" id="name" name="name" required placeholder="e.g., Jane Doe"> <div class="invalid-feedback">Please enter your name.</div> </div> <div class="col-md-6"> <label for="email" class="form-label">Your Email <span class="text-danger">*</span></label> <input type="email" class="form-control form-control-lg" id="email" name="email" required placeholder="e.g., jane.doe@example.com"> <div class="invalid-feedback">Please enter a valid email address.</div> </div> </div> <div class="mb-4"> <label for="subject" class="form-label">Subject</label> <input type="text" class="form-control form-control-lg" id="subject" name="subject" placeholder="e.g., Project Collaboration Opportunity"> </div> <div class="mb-4"> <label for="message" class="form-label">Message <span class="text-danger">*</span></label> <textarea class="form-control form-control-lg" id="message" name="message" rows="6" required placeholder="Tell me how I can help..."></textarea> <div class="invalid-feedback">Please enter your message.</div> </div> <div class="text-center"> <button type="submit" class="btn btn-primary btn-lg px-5" id="submit-button"> <span class="spinner-border spinner-border-sm me-2 d-none" role="status" aria-hidden="true"></span> Send Message <i class="bi bi-send-fill ms-2"></i> </button> </div> </form> <div class="text-center mt-5 social-links"> <p class="mb-3 fw-bold">Find me on:</p> <a href="mailto:patelmeet1348@gmail.com" class="social-icon" aria-label="Email Meet Patel" data-bs-toggle="tooltip" data-bs-placement="top" title="patelmeet1348@gmail.com"><i class="bi bi-envelope-fill"></i></a> <a href="https://www.linkedin.com/in/meet-patel-7581b31b9/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Meet Patel's LinkedIn Profile" data-bs-toggle="tooltip" data-bs-placement="top" title="LinkedIn"><i class="bi bi-linkedin"></i></a> <a href="https://github.com/patelmeet1011" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Meet Patel's GitHub Profile" data-bs-toggle="tooltip" data-bs-placement="top" title="GitHub"><i class="bi bi-github"></i></a> </div> </div> </div>
+             </div>
+         </section>
+
     </main>
 
     <footer class="py-4 text-center">
-        <div class="container">
-            <p class="mb-2 small">&copy; <span id="current-year"></span> Meet Patel. All Rights Reserved.</p>
-            <nav class="footer-links small" aria-label="Footer Navigation">
-                 <a href="#hero" class="footer-link mx-2">Home</a>
-                 <a href="#about" class="footer-link mx-2">About</a>
-                <a href="#projects" class="footer-link mx-2">Projects</a>
-                 <a href="#contact" class="footer-link mx-2">Contact</a>
-             </nav>
-        </div>
-    </footer>
+         <div class="container">
+             <p class="mb-2 small">&copy; <span id="current-year"></span> Meet Patel. All Rights Reserved.</p>
+             <nav class="footer-links small" aria-label="Footer Navigation">
+                  <a href="#hero" class="footer-link mx-2">Home</a>
+                  <a href="#about" class="footer-link mx-2">About</a>
+                 <a href="#projects" class="footer-link mx-2">Projects</a>
+                  <a href="#contact" class="footer-link mx-2">Contact</a>
+                  <a href="blog.html" class="footer-link mx-2">Blog</a>
+              </nav>
+         </div>
+     </footer>
 
     <a href="#hero" id="back-to-top" class="btn back-to-top-btn shadow-lg" aria-label="Back to top">
         <i class="bi bi-arrow-up"></i>
     </a>
 
     <div class="modal fade" id="skillModal" tabindex="-1" aria-labelledby="skillModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title fw-bold text-primary" id="skillModalLabel"><i class="bi bi-stars me-2"></i><span id="modal-skill-name">Skill Details</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -426,8 +306,27 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="modal fade" id="achievementModal" tabindex="-1" aria-labelledby="achievementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-primary" id="achievementModalLabel"><i class="bi bi-award-fill me-2"></i><span id="modal-achievement-name">Achievement Details</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-2">
+                    <p id="modal-achievement-details" class="mb-0"></p>
+                </div>
+                 <div class="modal-footer border-0">
+                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script src="script.js"></script>
 
 </body>
