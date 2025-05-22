@@ -30,7 +30,6 @@
     --color-border-dark-rgb: 52, 58, 64;
 
     --gradient-primary: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-    /* gradient-hero variables are not actively used if Vanta provides the full background */
 
     --border-radius-sm: 0.25rem;
     --border-radius-md: 0.5rem;
@@ -79,14 +78,7 @@
     #hero .btn-outline-light:hover { border-color: #fff; color: var(--color-text-dark); background-color: #fff; }
     footer { background-color: #181818 !important; }
     .bg-light { background-color: var(--color-card-bg) !important; }
-    .animated-gradient-text {
-        background: linear-gradient(90deg, #a0a0a0, #ffffff, #a0a0a0);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shine 4s linear infinite;
-     }
+    /* .animated-gradient-text is now effectively removed by not applying the class in HTML for the main title */
     .timeline > li > .timeline-panel:after { border-left-color: var(--color-card-bg); }
     .timeline > li.timeline-inverted > .timeline-panel:after { border-right-color: var(--color-card-bg); }
     .timeline > li > .timeline-panel:before { border-left-color: var(--color-border); }
@@ -236,8 +228,8 @@ a:hover {
 /* --- Hero Section (Updated for Visibility) --- */
 .hero-section {
     position: relative;
-    color: var(--color-text-light); /* Base text color for the section */
-    background-color: transparent; /* Vanta handles background */
+    color: var(--color-text-light); 
+    background-color: transparent; 
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -253,13 +245,19 @@ a:hover {
 
 .hero-title { /* For "Meet Patel" */
     font-weight: 900;
-    text-shadow: 0px 1px 3px rgba(0,0,0,0.6), 0px 0px 10px rgba(0,0,0,0.4), 0px 0px 20px rgba(0,0,0,0.2);
     margin-bottom: 1rem;
     font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #FFFFFF; /* Explicitly white for the main title */
+    color: #FFFFFF; /* Solid white for max clarity */
+    /* Refined text shadow for clarity and a nicer look */
+    text-shadow: 0px 0px 8px rgba(var(--color-primary-rgb), 0.25), /* Softer glow from primary color */
+                 0px 0px 15px rgba(var(--color-secondary-rgb), 0.15), /* Even softer glow from secondary */
+                 0px 1px 2px rgba(0,0,0,0.6); /* Darker sharper edge for definition */
+    letter-spacing: -0.5px; /* Optional: slight tightening */
 }
 
-.animated-gradient-text { /* This is for "Meet Patel" if you use the gradient class on the H1 */
+/* If .animated-gradient-text class is used on H1, it will override .hero-title color */
+/* We are assuming .animated-gradient-text is REMOVED from the H1 for "Meet Patel" for this styling */
+.animated-gradient-text {
     font-weight: 900;
     background: var(--gradient-primary);
     background-size: 200% auto;
@@ -267,9 +265,9 @@ a:hover {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shine 5s linear infinite;
-    /* If using this, consider text-shadow on a pseudo-element or parent for visibility */
 }
 @keyframes shine { to { background-position: 200% center; } }
+
 
 .hero-subtitle { /* "Data Analyst | Transforming Data..." */
     text-shadow: 0px 1px 3px rgba(0,0,0,0.7);
@@ -319,7 +317,7 @@ a:hover {
     border-color: lighten(var(--color-primary), 5%);
 }
 
-.hero-section .btn-outline-light { /* This button will always be on the dark Vanta bg */
+.hero-section .btn-outline-light { 
     border-color: rgba(255,255,255,0.8);
     color: #FFFFFF;
     background-color: rgba(255, 255, 255, 0.15);
@@ -327,7 +325,7 @@ a:hover {
 }
 .hero-section .btn-outline-light:hover {
     border-color: #fff;
-    color: var(--color-text-dark); /* Text becomes dark for contrast on white hover bg */
+    color: var(--color-text-dark); 
     background-color: #fff;
 }
 /* End Hero Section Updates */
@@ -359,7 +357,6 @@ a:hover {
     border-color: darken(var(--color-primary), 8%);
     color: var(--color-text-light);
 }
-/* .btn-outline-light is mostly for hero, other pages might need .btn-outline-secondary or theme-specific outline */
 .btn-outline-secondary {
      border-color: var(--color-border);
      color: var(--color-text-muted);
@@ -697,14 +694,15 @@ footer {
 }
 
 /* --- Project Detail Page & Academics/Blog Page common styles --- */
-.project-main-image, .page-main-image { /* generalized for other pages */
+.project-main-image, .page-main-image {
     max-width: 100%; height: auto; object-fit: cover;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     margin-bottom: 2rem;
 }
 .project-detail-section .list-group-item,
-#education-details .list-group-item { /* Add academics page list group */
+#education-details .list-group-item,
+.blog-content .list-group-item { /* Added blog page list group if any */
     background-color: transparent;
     border: none;
     padding-left: 0; padding-right: 0;
@@ -712,18 +710,19 @@ footer {
     color: var(--color-text);
 }
 .project-detail-section .list-group-flush > .list-group-item:last-child,
-#education-details .list-group-flush > .list-group-item:last-child {
+#education-details .list-group-flush > .list-group-item:last-child,
+.blog-content .list-group-flush > .list-group-item:last-child {
     border-bottom-width: 0 !important;
 }
 
 #education-details .card-header {
     font-weight: 600;
 }
-[data-bs-theme="light"] #education-details .card-header.bg-primary { /* Ensure good contrast for card header */
+[data-bs-theme="light"] #education-details .card-header.bg-primary {
     color: var(--color-text-light);
 }
 [data-bs-theme="dark"] #education-details .card-header {
-    background-color: rgba(var(--color-primary-rgb), 0.2); /* Subtle primary bg for dark theme card headers */
+    background-color: rgba(var(--color-primary-rgb), 0.2);
     border-bottom: 1px solid var(--color-border);
 }
 
@@ -742,23 +741,50 @@ footer {
 }
 .back-link:hover { color: var(--color-text); }
 
-/* Blog Page Specifics (Optional, can be expanded) */
-.blog-post-preview .card-title a {
+/* Blog Page Specifics */
+.blog-content img { /* Styles for images within the blog article body */
+    max-height: 450px; /* Example constraint */
+    object-fit: cover;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.blog-content h2 { /* Styling for H2s within the blog article */
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+}
+[data-bs-theme="dark"] .blog-content h2 {
+    color: var(--color-secondary);
+}
+.blog-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.blog-content li {
+    margin-bottom: 0.5rem;
+}
+.role-comparison-card { /* For the comparison list on the blog page */
+    background-color: var(--color-card-bg);
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+}
+.blog-post-preview .card-title a { /* For the main blog listing page */
     color: var(--color-text);
     text-decoration: none;
 }
 .blog-post-preview:hover .card-title a {
-    color: var(--color-link); /* Use link color on hover */
+    color: var(--color-link);
 }
 .blog-post-preview .small i {
     font-size: 0.9em;
 }
-.blog-post-preview { /* Ensure blog cards use the enhanced hover too */
+.blog-post-preview {
     border-left: 5px solid transparent;
     transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium), border-left-color var(--transition-medium);
 }
 .blog-post-preview:hover {
-    border-left-color: var(--color-secondary); /* Different accent for blog posts */
+    border-left-color: var(--color-secondary);
 }
 
 
