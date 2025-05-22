@@ -42,8 +42,9 @@
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --hover-shadow-light: 0 8px 20px rgba(0, 0, 0, 0.1);
-    --hover-shadow-dark: 0 8px 20px rgba(255, 255, 255, 0.06);
+    --hover-shadow-light: 0 8px 20px rgba(0, 0, 0, 0.12); /* Slightly increased hover shadow */
+    --hover-shadow-dark: 0 8px 20px rgba(255, 255, 255, 0.08); /* Slightly increased hover shadow */
+
 
     /* Transitions & Animations */
     --transition-fast: 0.2s ease-out;
@@ -110,7 +111,7 @@
     }
     .badge.text-bg-light { background-color: #495057 !important; color: #fff !important; border: 1px solid #6c757d !important;}
     .badge.text-bg-info, .badge.text-bg-warning { color: #000 !important; } /* Keep text dark on these */
-    .list-group-item { background-color: transparent; color: var(--color-text); border-color: rgba(var(--color-border), 0.5) !important; }
+    .list-group-item { background-color: transparent; color: var(--color-text); border-color: rgba(var(--color-border-rgb, 52, 58, 64), 0.5) !important; } /* Added var for border-rgb */
     .section-title .text-muted { color: var(--color-text-muted) !important; }
     .social-icon i { color: var(--color-text-muted); }
     .social-icon:hover i { color: var(--color-secondary); } /* Secondary hover for dark */
@@ -363,13 +364,13 @@ a:hover {
     box-shadow: var(--shadow-sm);
     transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium);
     background-color: var(--color-card-bg);
-    overflow: hidden;
+    overflow: hidden; /* Ensures image zoom doesn't break card radius */
 }
 .d-flex .card { display: flex; flex-direction: column; height: 100%; }
 .flex-fill { flex: 1 1 auto; }
 
 .card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px) perspective(1000px) rotateX(1deg) rotateY(1deg); /* Enhanced hover */
     box-shadow: var(--hover-shadow);
     border-color: var(--color-primary);
 }
@@ -381,7 +382,7 @@ a:hover {
 }
 .skill-card:hover, .achievement-card:hover {
     border-left-color: var(--color-primary);
-    transform: translateY(-6px) translateX(3px);
+    transform: translateY(-8px) translateX(3px) perspective(1000px) rotateX(1deg) rotateY(1deg); /* Enhanced hover */
 }
 /* Add cursor pointer if clickable */
 .skill-card[data-bs-toggle="modal"],
@@ -397,7 +398,7 @@ a:hover {
 }
 .skill-card:hover .skill-icon-wrapper,
 .achievement-card:hover .achievement-icon-wrapper {
-    transform: scale(1.15);
+    transform: scale(1.15) rotate(-3deg); /* Added slight rotation */
 }
 .card-title { font-weight: 700; margin-bottom: 0.5rem; }
 .card-text { color: var(--color-text-muted); }
@@ -548,6 +549,53 @@ a:hover {
 [data-bs-theme="dark"] .timeline > li.timeline-inverted > .timeline-panel:after { border-right-color: var(--color-card-bg); }
 [data-bs-theme="dark"] .timeline > li > .timeline-panel:before { border-left-color: var(--color-border); }
 [data-bs-theme="dark"] .timeline > li.timeline-inverted > .timeline-panel:before { border-right-color: var(--color-border); }
+
+/* --- NEW: My Analytical Approach Section --- */
+#my-approach .card {
+    border-top: 4px solid transparent; /* For hover effect */
+}
+
+.approach-card {
+    padding: 1.5rem; /* Add some padding inside the card */
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium), border-top-color var(--transition-medium);
+    display: flex; /* Ensure cards in a row are same height if using .d-flex on parent */
+    flex-direction: column;
+}
+
+.approach-card:hover {
+    transform: translateY(-10px) perspective(1200px) rotateX(2deg) rotateY(2deg); /* More pronounced hover */
+    box-shadow: var(--hover-shadow);
+    border-color: var(--color-primary);
+    border-top-color: var(--color-primary); /* Highlight top border on hover */
+}
+
+.approach-icon-wrapper {
+    font-size: 2.8rem; /* Slightly larger icon */
+    color: var(--color-primary);
+    margin-bottom: 1.25rem; /* Increased margin */
+    transition: transform var(--transition-medium) cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy transition */
+}
+
+.approach-card:hover .approach-icon-wrapper {
+    transform: scale(1.2) rotate(-5deg);
+    color: var(--color-secondary); /* Change icon color on hover */
+}
+
+.approach-card .card-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.approach-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+}
+/* --- END: My Analytical Approach Section --- */
 
 
 /* --- Contact Form --- */
