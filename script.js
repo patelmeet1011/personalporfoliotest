@@ -2,10 +2,12 @@
  * script.js
  *
  * Handles interactive elements for Meet Patel's portfolio:
+ * - Loading Screen
+ * - Basic Page Transitions (Fade In/Out)
  * - Theme Toggling (Light/Dark)
  * - Vanta.js Background Initialization & Theme Update
  * - Animate on Scroll (AOS) Initialization
- * - Smooth Scrolling & Active Nav Link Highlighting (via Bootstrap Scrollspy)
+ * - Smooth Scrolling & Active Nav Link Highlighting
  * - Project Filtering
  * - Skill Modal Interaction
  * - Achievement Modal Interaction
@@ -32,20 +34,68 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar-main');
     const vantaBackgroundElement = document.getElementById('vanta-bg');
 
+    // New Elements for Loading Screen & Page Transitions
+    const loadingScreen = document.getElementById('loading-screen');
+    const pageWrapper = document.getElementById('page-wrapper');
+    const transitionLinks = document.querySelectorAll('.transition-link');
+
     // --- State & Constants ---
     const SCROLL_THRESHOLD_BACK_TO_TOP = 300;
     const FORM_STATUS_DISMISS_DELAY = 7000;
     const FILTER_TRANSITION_DELAY = 300;
+    const PAGE_TRANSITION_DELAY = 500; // Corresponds to CSS transition duration
     const DARK_ICON = '<i class="bi bi-moon-stars-fill"></i>';
     const LIGHT_ICON = '<i class="bi bi-sun-fill"></i>';
-    let vantaEffect = null; // To hold the Vanta instance
+    let vantaEffect = null;
 
-    // --- Helper Functions ---
+    // --- Loading Screen & Page Load Animation ---
+    const handlePageLoadAnimations = () => {
+        if (loadingScreen) {
+            loadingScreen.classList.add('hidden');
+        }
+        if (pageWrapper) {
+            // Delay slightly to ensure loading screen is gone and content is ready
+            setTimeout(() => {
+                pageWrapper.classList.add('fade-in');
+            }, 100); // Short delay
+        }
+    };
 
-    /**
-     * Sets the theme on the HTML element, updates the toggle button, stores preference, and triggers Vanta update.
-     * @param {string} theme - The theme to set ('light' or 'dark').
-     */
+    // Prefer window.onload for ensuring all assets (like Vanta) are ready
+    window.addEventListener('load', handlePageLoadAnimations);
+    // Fallback if onload is too slow or doesn't fire reliably for some reason
+    // setTimeout(handlePageLoadAnimations, 2000); // Max wait time
+
+
+    // --- Basic Page "Leaving" Animation ---
+    if (transitionLinks.length > 0 && pageWrapper) {
+        transitionLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const href = this.href;
+                const isExternal = this.hostname !== window.location.hostname || this.protocol !== window.location.protocol;
+                const isAnchorLink = href.includes('#') && href.startsWith(window.location.origin + window.location.pathname);
+                const isSamePageAnchor = href.startsWith(window.location.href.split('#')[0] + '#');
+
+
+                // Only apply to actual page navigations, not same-page anchors handled by smooth scroll or external links
+                if (href && !isExternal && !isSamePageAnchor) {
+                    // If it's an internal link to a different page (not just a new hash on current page)
+                    if (this.pathname !== window.location.pathname || (this.pathname === window.location.pathname && this.search !== window.location.search && !this.hash) ) {
+                        event.preventDefault();
+                        pageWrapper.classList.add('is-leaving');
+                        pageWrapper.classList.remove('fade-in'); // Ensure it fades out
+
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, PAGE_TRANSITION_DELAY);
+                    }
+                }
+            });
+        });
+    }
+
+
+    // --- Helper Functions (Theme, Vanta) ---
     const applyTheme = (theme) => {
         htmlElement.setAttribute('data-bs-theme', theme);
         if (themeToggleButton) {
@@ -57,36 +107,22 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.warn('LocalStorage is not available. Theme preference will not be saved.');
         }
-        // Trigger Vanta update AFTER theme attribute is set
         initializeVantaBackground();
     };
 
-    /**
-     * Initializes the Vanta.js background effect, handling theme changes.
-     */
     const initializeVantaBackground = () => {
         if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') {
-            console.error("Vanta.js or Three.js library not found.");
-            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg)';
+            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg-dark)'; // Fallback
             return;
         }
-        if (!vantaBackgroundElement) {
-            console.error("Vanta background element (#vanta-bg) not found.");
-            return;
-        }
+        if (!vantaBackgroundElement) return;
 
         if (vantaEffect) {
-            try {
-                vantaEffect.destroy();
-            } catch (e) {
-                console.error("Error destroying Vanta instance:", e);
-            }
+            try { vantaEffect.destroy(); } catch (e) { console.error("Error destroying Vanta instance:", e); }
             vantaEffect = null;
         }
 
         const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
-
-        // Using the original Vanta.js parameters from your initial script
         try {
             vantaEffect = VANTA.NET({
                 el: "#vanta-bg",
@@ -97,36 +133,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2, // Secondary for dark, Primary for light
-                backgroundColor: currentTheme === 'dark' ? 0x121212 : 0xffffff, // Match CSS --color-bg-dark / --color-bg-light
+                color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2,
+                backgroundColor: currentTheme === 'dark' ? 0x121212 : 0x001f3f, // Dark blue for light theme Vanta BG
                 points: 11.00,
                 maxDistance: 20.00,
                 spacing: 16.00
             });
-            // console.log("Vanta.NET initialized with original parameters for theme:", currentTheme);
         } catch (e) {
              console.error("Error initializing Vanta.NET:", e);
-             if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#ffffff';
+             if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#001f3f';
         }
     };
 
-
-    /**
-     * Initializes the overall theme based on preferences.
-     */
     const initializeTheme = () => {
         let storedTheme = null;
-        try {
-            storedTheme = localStorage.getItem('theme');
-        } catch (e) { /* Ignore */ }
+        try { storedTheme = localStorage.getItem('theme'); } catch (e) { /* Ignore */ }
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
         applyTheme(initialTheme);
     };
 
     // --- Initialization Sequence ---
-
-    initializeTheme(); // This also calls initializeVantaBackground
+    initializeTheme(); // Also calls Vanta init
 
     try {
         AOS.init({
@@ -144,8 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) { console.error("Bootstrap Tooltip init failed:", e); }
 
 
-    // --- Event Listeners ---
-
+    // --- Event Listeners (Existing) ---
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', () => {
             const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
@@ -203,36 +230,28 @@ document.addEventListener('DOMContentLoaded', () => {
                  }
                  e.target.classList.add('active');
                  e.target.setAttribute('aria-pressed', 'true');
-
                  const filterValue = e.target.getAttribute('data-filter');
                  projectGallery.classList.add('filtering');
-
                  projectItems.forEach(item => {
                      const tags = item.getAttribute('data-tags')?.split(',') || [];
                      const shouldShow = filterValue === 'all' || tags.includes(filterValue);
-                     if (shouldShow) {
-                         item.classList.remove('hide');
-                     } else {
-                         item.classList.add('hide');
-                     }
+                     if (shouldShow) { item.classList.remove('hide'); } else { item.classList.add('hide'); }
                  });
-
-                 setTimeout(() => {
-                     AOS.refresh();
-                     projectGallery.classList.remove('filtering');
-                 }, FILTER_TRANSITION_DELAY);
+                 setTimeout(() => { AOS.refresh(); projectGallery.classList.remove('filtering'); }, FILTER_TRANSITION_DELAY);
              }
         });
     }
 
+    // Smooth Scroll for Internal Links (modified to not interfere with page transitions for different pages)
     document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"], a.back-to-top-btn[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
+            // Check if it's a same-page anchor link
             if (href && href.startsWith('#') && href.length > 1) {
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
-                    e.preventDefault();
-                    const navbarHeight = navbar?.offsetHeight || 70;
+                    e.preventDefault(); // Prevent default for smooth scroll
+                    const navbarHeight = navbar?.offsetHeight || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height')) || 70;
                     const elementPosition = targetElement.getBoundingClientRect().top;
                     const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
                     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
@@ -248,11 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+
     if (contactForm && formStatus && submitButton) {
         contactForm.addEventListener('submit', async (e) => {
              e.preventDefault();
              e.stopPropagation();
-
              if (!contactForm.checkValidity()) {
                  contactForm.classList.add('was-validated');
                  formStatus.className = 'alert alert-warning alert-dismissible fade show';
@@ -260,64 +279,42 @@ document.addEventListener('DOMContentLoaded', () => {
                  return;
              }
              contactForm.classList.add('was-validated');
-
              const formData = new FormData(contactForm);
              const formAction = contactForm.getAttribute('action');
              const submitButtonOriginalText = submitButton.innerHTML;
              const spinner = submitButton.querySelector('.spinner-border');
-
              if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree") ) {
-                 console.error("Form submission endpoint is not configured correctly in HTML 'action' attribute.");
+                 console.error("Form submission endpoint not configured.");
                  formStatus.className = 'alert alert-danger alert-dismissible fade show';
                  formStatus.innerHTML = 'Form submission configuration error. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                 setTimeout(() => {
-                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
-                    if (alertInstance) alertInstance.close();
-                 }, FORM_STATUS_DISMISS_DELAY);
+                 setTimeout(() => { const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus); if (alertInstance) alertInstance.close();}, FORM_STATUS_DISMISS_DELAY);
                  return;
              }
-
              submitButton.disabled = true;
              if(spinner) spinner.classList.remove('d-none');
              submitButton.childNodes[spinner ? 1 : 0].textContent = ' Sending... ';
              formStatus.className = 'alert alert-info alert-dismissible fade show';
              formStatus.innerHTML = 'Sending your message... <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-
-
              try {
-                 const response = await fetch(formAction, {
-                     method: 'POST',
-                     body: formData,
-                     headers: { 'Accept': 'application/json' }
-                 });
-
+                 const response = await fetch(formAction, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' }});
                  if (response.ok) {
                      formStatus.className = 'alert alert-success alert-dismissible fade show';
                      formStatus.innerHTML = 'Message sent successfully! Thank you. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                      contactForm.reset();
                      contactForm.classList.remove('was-validated');
                  } else {
-                     let errorMessage = 'An error occurred during submission.';
-                     try {
-                         const errorData = await response.json();
-                         errorMessage = errorData.error || errorData.message || `Server Error: ${response.status} ${response.statusText}`;
-                     } catch (parseError) {
-                         errorMessage = `Server Error: ${response.status} ${response.statusText}`;
-                     }
+                     let errorMessage = 'An error occurred.';
+                     try { const errorData = await response.json(); errorMessage = errorData.error || errorData.message || `Server Error: ${response.status} ${response.statusText}`; } catch (parseError) { errorMessage = `Server Error: ${response.status} ${response.statusText}`; }
                      throw new Error(errorMessage);
                  }
-
              } catch (error) {
                  console.error('Form submission error:', error);
                  formStatus.className = 'alert alert-danger alert-dismissible fade show';
-                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+                 formStatus.innerHTML = `Oops! ${error.message || 'A network error.'} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
              } finally {
                  submitButton.disabled = false;
                  submitButton.innerHTML = submitButtonOriginalText;
-                 setTimeout(() => {
-                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
-                    if (alertInstance) alertInstance.close();
-                 }, FORM_STATUS_DISMISS_DELAY);
+                 setTimeout(() => { const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus); if (alertInstance) alertInstance.close();}, FORM_STATUS_DISMISS_DELAY);
              }
         });
     }
