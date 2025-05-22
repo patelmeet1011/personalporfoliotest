@@ -8,7 +8,7 @@
  * - Smooth Scrolling & Active Nav Link Highlighting (via Bootstrap Scrollspy)
  * - Project Filtering
  * - Skill Modal Interaction
- * - Achievement Modal Interaction (NEW)
+ * - Achievement Modal Interaction
  * - Contact Form Submission Handling
  * - Back to Top Button
  * - Bootstrap Component Initialization (Tooltips, Modals, etc.)
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleButton = document.getElementById('theme-toggle');
     const backToTopButton = document.getElementById('back-to-top');
     const skillModalElement = document.getElementById('skillModal');
-    const achievementModalElement = document.getElementById('achievementModal'); // New
+    const achievementModalElement = document.getElementById('achievementModal');
     const projectFilterContainer = document.getElementById('project-filters');
     const projectItems = document.querySelectorAll('.project-gallery .project-item');
     const projectGallery = document.querySelector('.project-gallery');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const currentYearSpan = document.getElementById('current-year');
     const navbar = document.getElementById('navbar-main');
-    const vantaBackgroundElement = document.getElementById('vanta-bg'); // Vanta container
+    const vantaBackgroundElement = document.getElementById('vanta-bg');
 
     // --- State & Constants ---
     const SCROLL_THRESHOLD_BACK_TO_TOP = 300;
@@ -62,13 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     /**
-     * Initializes the Vanta.js NET background effect, handling theme changes.
+     * Initializes the Vanta.js background effect, handling theme changes.
      */
     const initializeVantaBackground = () => {
-        // Ensure Vanta library and container element exist
         if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') {
             console.error("Vanta.js or Three.js library not found.");
-            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg)'; // Fallback color
+            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg)';
             return;
         }
         if (!vantaBackgroundElement) {
@@ -76,21 +75,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Destroy previous instance if exists (important for theme switching)
         if (vantaEffect) {
             try {
                 vantaEffect.destroy();
-                console.log("Previous Vanta instance destroyed.");
             } catch (e) {
                 console.error("Error destroying Vanta instance:", e);
             }
             vantaEffect = null;
         }
 
-        // Get current theme AFTER it has been set on the HTML element
         const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
 
-        // Vanta Configuration (NET Effect)
+        // Using the original Vanta.js parameters from your initial script
         try {
             vantaEffect = VANTA.NET({
                 el: "#vanta-bg",
@@ -101,17 +97,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                // Theme-specific colors (using HEX NUMBERS)
                 color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2, // Secondary for dark, Primary for light
                 backgroundColor: currentTheme === 'dark' ? 0x121212 : 0xffffff, // Match CSS --color-bg-dark / --color-bg-light
-                points: 11.00, // Adjust density
-                maxDistance: 20.00, // Adjust connection distance
-                spacing: 16.00 // Adjust spacing
+                points: 11.00,
+                maxDistance: 20.00,
+                spacing: 16.00
             });
-            console.log("Vanta.NET initialized for theme:", currentTheme);
+            // console.log("Vanta.NET initialized with original parameters for theme:", currentTheme);
         } catch (e) {
              console.error("Error initializing Vanta.NET:", e);
-             vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#ffffff'; // Fallback color
+             if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#ffffff';
         }
     };
 
@@ -126,16 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { /* Ignore */ }
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-        // Apply theme (which will also trigger initial Vanta setup)
         applyTheme(initialTheme);
     };
 
     // --- Initialization Sequence ---
 
-    // 1. Initialize Theme (this also calls initializeVantaBackground)
-    initializeTheme();
+    initializeTheme(); // This also calls initializeVantaBackground
 
-    // 2. Initialize AOS
     try {
         AOS.init({
             duration: 700,
@@ -146,8 +138,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     } catch(e) { console.error("AOS Init failed:", e); }
 
-
-    // 3. Initialize Bootstrap Tooltips
     try {
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
         tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
@@ -156,15 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
 
-    // Theme Toggle Button (Now only needs to call applyTheme)
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', () => {
             const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
-            applyTheme(newTheme); // applyTheme handles Vanta re-initialization
+            applyTheme(newTheme);
         });
     }
 
-    // Back to Top Button Visibility
     if (backToTopButton) {
         const toggleBackToTopVisibility = () => {
             if (window.pageYOffset > SCROLL_THRESHOLD_BACK_TO_TOP) {
@@ -174,10 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         window.addEventListener('scroll', toggleBackToTopVisibility);
-        toggleBackToTopVisibility(); // Initial check
+        toggleBackToTopVisibility();
     }
 
-    // Skill Modal Population
     if (skillModalElement) {
         skillModalElement.addEventListener('show.bs.modal', (event) => {
             try {
@@ -192,11 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Achievement Modal Population (NEW)
     if (achievementModalElement) {
         achievementModalElement.addEventListener('show.bs.modal', (event) => {
              try {
-                const button = event.relatedTarget; // Card that triggered the modal
+                const button = event.relatedTarget;
                 const achievementName = button.getAttribute('data-achievement-name') || 'Achievement Details';
                 const achievementDetails = button.getAttribute('data-achievement-details') || 'Details about this achievement.';
                 const modalTitle = achievementModalElement.querySelector('#modal-achievement-name');
@@ -207,24 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Project Filtering
     if (projectFilterContainer && projectItems.length > 0 && projectGallery) {
         projectFilterContainer.addEventListener('click', (e) => {
              if (e.target && e.target.classList.contains('filter-btn')) {
-                 // Deactivate previous button
                  const currentActive = projectFilterContainer.querySelector('.filter-btn.active');
                  if (currentActive) {
                      currentActive.classList.remove('active');
                      currentActive.setAttribute('aria-pressed', 'false');
                  }
-                 // Activate clicked button
                  e.target.classList.add('active');
                  e.target.setAttribute('aria-pressed', 'true');
 
                  const filterValue = e.target.getAttribute('data-filter');
-                 projectGallery.classList.add('filtering'); // Optional class for transitions
+                 projectGallery.classList.add('filtering');
 
-                 // Filter logic
                  projectItems.forEach(item => {
                      const tags = item.getAttribute('data-tags')?.split(',') || [];
                      const shouldShow = filterValue === 'all' || tags.includes(filterValue);
@@ -233,11 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
                      } else {
                          item.classList.add('hide');
                      }
-                     // Optional: Reset AOS state if desired
-                     // item.classList.remove('aos-animate');
                  });
 
-                 // Refresh AOS after filtering
                  setTimeout(() => {
                      AOS.refresh();
                      projectGallery.classList.remove('filtering');
@@ -246,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth Scroll for Internal Links
     document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"], a.back-to-top-btn[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -259,7 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
                     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 
-                    // Close mobile navbar
                     const navbarToggler = document.querySelector('.navbar-toggler');
                     const navbarCollapse = document.querySelector('.navbar-collapse');
                     if (navbarToggler && !navbarToggler.classList.contains('collapsed') && navbarCollapse?.classList.contains('show')) {
@@ -271,8 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
-    // Enhanced Contact Form Submission
     if (contactForm && formStatus && submitButton) {
         contactForm.addEventListener('submit', async (e) => {
              e.preventDefault();
@@ -291,19 +266,23 @@ document.addEventListener('DOMContentLoaded', () => {
              const submitButtonOriginalText = submitButton.innerHTML;
              const spinner = submitButton.querySelector('.spinner-border');
 
-             if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree") ) { // Basic check
+             if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree") ) {
                  console.error("Form submission endpoint is not configured correctly in HTML 'action' attribute.");
-                 formStatus.className = 'alert alert-danger show';
-                 formStatus.textContent = 'Form submission configuration error.';
-                 setTimeout(() => bootstrap.Alert.getOrCreateInstance(formStatus)?.close(), FORM_STATUS_DISMISS_DELAY);
+                 formStatus.className = 'alert alert-danger alert-dismissible fade show';
+                 formStatus.innerHTML = 'Form submission configuration error. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                 setTimeout(() => {
+                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                    if (alertInstance) alertInstance.close();
+                 }, FORM_STATUS_DISMISS_DELAY);
                  return;
              }
 
              submitButton.disabled = true;
              if(spinner) spinner.classList.remove('d-none');
              submitButton.childNodes[spinner ? 1 : 0].textContent = ' Sending... ';
-             formStatus.className = 'alert alert-info show';
-             formStatus.textContent = 'Sending your message...';
+             formStatus.className = 'alert alert-info alert-dismissible fade show';
+             formStatus.innerHTML = 'Sending your message... <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+
 
              try {
                  const response = await fetch(formAction, {
@@ -313,8 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
                  });
 
                  if (response.ok) {
-                     formStatus.className = 'alert alert-success show';
-                     formStatus.textContent = 'Message sent successfully! Thank you.';
+                     formStatus.className = 'alert alert-success alert-dismissible fade show';
+                     formStatus.innerHTML = 'Message sent successfully! Thank you. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                      contactForm.reset();
                      contactForm.classList.remove('was-validated');
                  } else {
@@ -330,17 +309,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
              } catch (error) {
                  console.error('Form submission error:', error);
-                 formStatus.className = 'alert alert-danger show';
-                 formStatus.textContent = `Oops! ${error.message || 'A network error occurred.'}`;
+                 formStatus.className = 'alert alert-danger alert-dismissible fade show';
+                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
              } finally {
                  submitButton.disabled = false;
                  submitButton.innerHTML = submitButtonOriginalText;
-                 setTimeout(() => bootstrap.Alert.getOrCreateInstance(formStatus)?.close(), FORM_STATUS_DISMISS_DELAY);
+                 setTimeout(() => {
+                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                    if (alertInstance) alertInstance.close();
+                 }, FORM_STATUS_DISMISS_DELAY);
              }
         });
     }
 
-    // Update Footer Year
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
