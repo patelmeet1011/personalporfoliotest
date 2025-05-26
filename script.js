@@ -2,12 +2,10 @@
  * script.js
  *
  * Handles interactive elements for Meet Patel's portfolio:
- * - Loading Screen
- * - Page Transitions (Fade In/Out)
  * - Theme Toggling (Light/Dark)
  * - Vanta.js Background Initialization & Theme Update
  * - Animate on Scroll (AOS) Initialization
- * - Smooth Scrolling & Active Nav Link Highlighting (Basic - can be enhanced)
+ * - Smooth Scrolling & Active Nav Link Highlighting
  * - Project Filtering
  * - Skill Modal Interaction
  * - Achievement Modal Interaction
@@ -34,82 +32,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar-main');
     const vantaBackgroundElement = document.getElementById('vanta-bg');
 
-    const loadingScreen = document.getElementById('loading-screen');
-    const pageWrapper = document.getElementById('page-wrapper');
-    const transitionLinks = document.querySelectorAll('.transition-link');
-
     // --- State & Constants ---
     const SCROLL_THRESHOLD_BACK_TO_TOP = 300;
     const FORM_STATUS_DISMISS_DELAY = 7000;
-    const FILTER_TRANSITION_DELAY = 350;
-    const PAGE_TRANSITION_DELAY = 500;
-    const DARK_ICON_CLASS = 'bi-moon-stars-fill'; // Bootstrap icon class for dark mode
-    const LIGHT_ICON_CLASS = 'bi-sun-fill';     // Bootstrap icon class for light mode
-    let vantaEffect = null;
-    let loadFallbackTimeout = null;
+    const FILTER_TRANSITION_DELAY = 300;
+    const DARK_ICON = '<i class="bi bi-moon-stars-fill"></i>';
+    const LIGHT_ICON = '<i class="bi bi-sun-fill"></i>';
+    let vantaEffect = null; // To hold the Vanta instance
 
-    // --- Helper: Get computed style for Vanta fallback
-    const getCssVariable = (variable) => getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+    // --- Helper Functions ---
 
-    // --- Loading Screen & Page Load Animation ---
-    const hideLoadingScreen = () => {
-        if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
-        }
-    };
-
-    const showPageContent = () => {
-        if (pageWrapper) {
-            pageWrapper.classList.add('fade-in');
-        }
-    };
-
-    const handlePageLoadAnimations = () => {
-        if (loadFallbackTimeout) {
-            clearTimeout(loadFallbackTimeout);
-        }
-        hideLoadingScreen();
-        setTimeout(showPageContent, 50);
-    };
-
-    window.addEventListener('load', handlePageLoadAnimations);
-    loadFallbackTimeout = setTimeout(handlePageLoadAnimations, 2500);
-
-    // --- Page "Leaving" Animation ---
-    if (transitionLinks.length > 0 && pageWrapper) {
-        transitionLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                const href = this.href;
-                const isExternal = this.hostname !== window.location.hostname || this.protocol !== window.location.protocol;
-                const isMailto = this.protocol === 'mailto:';
-                const isDownload = this.hasAttribute('download');
-                const isSamePageAnchor = href.startsWith(window.location.origin + window.location.pathname + '#') || href.startsWith('#');
-
-                if (href && !isExternal && !isMailto && !isDownload && !isSamePageAnchor) {
-                    if (this.pathname !== window.location.pathname || (this.pathname === window.location.pathname && this.search !== window.location.search && !this.hash) ) {
-                        event.preventDefault();
-                        pageWrapper.classList.add('is-leaving');
-                        pageWrapper.classList.remove('fade-in');
-
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, PAGE_TRANSITION_DELAY);
-                    }
-                }
-            });
-        });
-    }
-
-
-    // --- Theme Management ---
+    /**
+     * Sets the theme on the HTML element, updates the toggle button, stores preference, and triggers Vanta update.
+     * @param {string} theme - The theme to set ('light' or 'dark').
+     */
     const applyTheme = (theme) => {
         htmlElement.setAttribute('data-bs-theme', theme);
         if (themeToggleButton) {
-            const iconElement = themeToggleButton.querySelector('i');
-            if (iconElement) {
-                iconElement.classList.remove(theme === 'dark' ? LIGHT_ICON_CLASS : DARK_ICON_CLASS);
-                iconElement.classList.add(theme === 'dark' ? LIGHT_ICON_CLASS : DARK_ICON_CLASS);
-            }
+            themeToggleButton.innerHTML = theme === 'dark' ? LIGHT_ICON : DARK_ICON;
             themeToggleButton.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
         }
         try {
@@ -117,36 +57,37 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.warn('LocalStorage is not available. Theme preference will not be saved.');
         }
+        // Trigger Vanta update AFTER theme attribute is set
         initializeVantaBackground();
     };
 
+    /**
+     * Initializes the Vanta.js background effect, handling theme changes.
+     */
     const initializeVantaBackground = () => {
         if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') {
-            if (vantaBackgroundElement) {
-                const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
-                vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? getCssVariable('--color-bg-dark') : '#001f3f';
-            }
-            console.warn("Vanta.js or Three.js not loaded. Vanta background disabled.");
+            console.error("Vanta.js or Three.js library not found.");
+            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg-dark)'; // Default dark BG for Vanta if libs missing
             return;
         }
-        if (!vantaBackgroundElement) return;
+        if (!vantaBackgroundElement) {
+            console.error("Vanta background element (#vanta-bg) not found.");
+            return;
+        }
 
         if (vantaEffect) {
-            try { vantaEffect.destroy(); } catch (e) { console.error("Error destroying Vanta instance:", e); }
+            try {
+                vantaEffect.destroy();
+            } catch (e) {
+                console.error("Error destroying Vanta instance:", e);
+            }
             vantaEffect = null;
         }
 
         const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
-        let vantaColor, vantaBgColor;
 
-        if (currentTheme === 'dark') {
-            vantaColor = parseInt(getCssVariable('--color-secondary').replace('#', '0x'), 16);
-            vantaBgColor = parseInt(getCssVariable('--color-bg-dark').replace('#', '0x'), 16);
-        } else {
-            vantaColor = parseInt(getCssVariable('--color-primary').replace('#', '0x'), 16);
-            vantaBgColor = 0x001f3f;
-        }
-
+        // Vanta.js NET effect with corrected background for light theme page
+        // This ensures hero text (which is light) is always visible
         try {
             vantaEffect = VANTA.NET({
                 el: "#vanta-bg",
@@ -157,31 +98,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 minWidth: 200.00,
                 scale: 1.00,
                 scaleMobile: 1.00,
-                color: vantaColor,
-                backgroundColor: vantaBgColor,
-                points: 11.00,
-                maxDistance: 20.00,
-                spacing: 16.00,
-                showDots: true
+                color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2, // Vanta lines: Mint for dark theme page, Blue for light theme page
+                backgroundColor: currentTheme === 'dark' ? 0x121212 : 0x001f3f, // Vanta BG: Dark for dark theme page, Dark Blue for light theme page
+                points: 11.00, // Original points
+                maxDistance: 20.00, // Original maxDistance
+                spacing: 16.00 // Original spacing
             });
+            // console.log("Vanta.NET initialized for theme:", currentTheme);
         } catch (e) {
              console.error("Error initializing Vanta.NET:", e);
-             if (vantaBackgroundElement) {
-                vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? getCssVariable('--color-bg-dark') : '#001f3f';
-             }
+             // Fallback background color for Vanta canvas if initialization fails
+             if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#001f3f';
         }
     };
 
+
+    /**
+     * Initializes the overall theme based on preferences.
+     */
     const initializeTheme = () => {
         let storedTheme = null;
-        try { storedTheme = localStorage.getItem('theme'); } catch (e) { /* Ignore */ }
+        try {
+            storedTheme = localStorage.getItem('theme');
+        } catch (e) { /* Ignore */ }
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-        applyTheme(initialTheme);
+        applyTheme(initialTheme); // This also calls initializeVantaBackground
     };
 
-    // --- Initializations ---
-    initializeTheme();
+    // --- Initialization Sequence ---
+
+    initializeTheme(); 
 
     try {
         AOS.init({
@@ -200,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Event Listeners ---
+
     if (themeToggleButton) {
         themeToggleButton.addEventListener('click', () => {
             const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
@@ -209,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (backToTopButton) {
         const toggleBackToTopVisibility = () => {
-            if (window.scrollY > SCROLL_THRESHOLD_BACK_TO_TOP) {
+            if (window.pageYOffset > SCROLL_THRESHOLD_BACK_TO_TOP) {
                 backToTopButton.classList.add('show');
             } else {
                 backToTopButton.classList.remove('show');
@@ -217,39 +165,35 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.addEventListener('scroll', toggleBackToTopVisibility);
         toggleBackToTopVisibility();
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = backToTopButton.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
+    }
+
+    if (skillModalElement) {
+        skillModalElement.addEventListener('show.bs.modal', (event) => {
+            try {
+                const button = event.relatedTarget;
+                const skillName = button.getAttribute('data-skill-name') || 'Skill Details';
+                const skillDetails = button.getAttribute('data-skill-details') || 'No details provided.';
+                const modalTitle = skillModalElement.querySelector('#modal-skill-name');
+                const modalBody = skillModalElement.querySelector('#modal-skill-details');
+                if (modalTitle) modalTitle.textContent = skillName;
+                if (modalBody) modalBody.textContent = skillDetails;
+            } catch (e) { console.error("Error populating skill modal:", e); }
         });
     }
 
-    // Corrected Modal Setup Function
-    const setupModal = (modalElement, nameAttr, detailsAttr, nameId, detailsId) => {
-        if (modalElement) {
-            modalElement.addEventListener('show.bs.modal', (event) => {
-                try {
-                    const button = event.relatedTarget;
-                    const itemName = button.getAttribute(nameAttr) || 'Details';
-                    // Ensure achievementDetails can contain HTML for formatting
-                    const itemDetails = button.getAttribute(detailsAttr) || 'No details provided.';
-                    const modalTitle = modalElement.querySelector(nameId); // Use # for ID selector
-                    const modalBody = modalElement.querySelector(detailsId); // Use # for ID selector
-
-                    if (modalTitle) modalTitle.textContent = itemName;
-                    if (modalBody) modalBody.innerHTML = itemDetails; // Use innerHTML to render HTML details
-                } catch (e) { console.error(`Error populating modal (${nameId}):`, e); }
-            });
-        }
-    };
-
-    // Call setupModal for both skill and achievement modals with correct ID selectors
-    setupModal(skillModalElement, 'data-skill-name', 'data-skill-details', '#modal-skill-name', '#modal-skill-details');
-    setupModal(achievementModalElement, 'data-achievement-name', 'data-achievement-details', '#modal-achievement-name', '#modal-achievement-details');
-
+    if (achievementModalElement) {
+        achievementModalElement.addEventListener('show.bs.modal', (event) => {
+             try {
+                const button = event.relatedTarget;
+                const achievementName = button.getAttribute('data-achievement-name') || 'Achievement Details';
+                const achievementDetails = button.getAttribute('data-achievement-details') || 'Details about this achievement.';
+                const modalTitle = achievementModalElement.querySelector('#modal-achievement-name');
+                const modalBody = achievementModalElement.querySelector('#modal-achievement-details');
+                if (modalTitle) modalTitle.textContent = achievementName;
+                if (modalBody) modalBody.textContent = achievementDetails;
+            } catch (e) { console.error("Error populating achievement modal:", e); }
+        });
+    }
 
     if (projectFilterContainer && projectItems.length > 0 && projectGallery) {
         projectFilterContainer.addEventListener('click', (e) => {
@@ -274,70 +218,38 @@ document.addEventListener('DOMContentLoaded', () => {
                          item.classList.add('hide');
                      }
                  });
+
                  setTimeout(() => {
-                    AOS.refresh();
-                    projectGallery.classList.remove('filtering');
+                     AOS.refresh();
+                     projectGallery.classList.remove('filtering');
                  }, FILTER_TRANSITION_DELAY);
              }
         });
     }
 
-    const navLinks = document.querySelectorAll('a.nav-link[href^="#"]');
-    const sections = document.querySelectorAll('section[id]');
-
-    const changeNavActiveState = (targetId) => {
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${targetId}`) {
-                link.classList.add('active');
-            }
-        });
-    };
-
-    const observerOptions = {
-        root: null,
-        rootMargin: `-${(navbar?.offsetHeight || 70) + 20}px 0px 0px 0px`,
-        threshold: 0.4
-    };
-
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                changeNavActiveState(entry.target.id);
-            }
-        });
-    }, observerOptions);
-
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-
-    document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"]').forEach(anchor => {
+    // Smooth Scroll for Internal Links
+    document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"], a.back-to-top-btn[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            if (href && href.startsWith('#') && href.length > 1) {
+            if (href && href.startsWith('#') && href.length > 1) { // Ensure it's a same-page anchor
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
                     e.preventDefault();
-                    const navbarHeight = navbar?.offsetHeight || parseInt(getCssVariable('--navbar-height')) || 70;
+                    const navbarHeight = navbar?.offsetHeight || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height').replace('px', '')) || 70;
                     const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - navbarHeight;
-
+                    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
                     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 
                     const navbarToggler = document.querySelector('.navbar-toggler');
                     const navbarCollapse = document.querySelector('.navbar-collapse');
                     if (navbarToggler && !navbarToggler.classList.contains('collapsed') && navbarCollapse?.classList.contains('show')) {
                          const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse, {toggle: false});
-                         if (bsCollapse) bsCollapse.hide();
+                         bsCollapse.hide();
                     }
-                    changeNavActiveState(targetElement.id);
                 }
             }
         });
     });
-
 
     if (contactForm && formStatus && submitButton) {
         contactForm.addEventListener('submit', async (e) => {
@@ -348,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  contactForm.classList.add('was-validated');
                  formStatus.className = 'alert alert-warning alert-dismissible fade show';
                  formStatus.innerHTML = 'Please check the highlighted fields. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                 bootstrap.Alert.getOrCreateInstance(formStatus);
                  return;
              }
              contactForm.classList.add('was-validated');
@@ -358,51 +269,58 @@ document.addEventListener('DOMContentLoaded', () => {
              const submitButtonOriginalText = submitButton.innerHTML;
              const spinner = submitButton.querySelector('.spinner-border');
 
-             if (!formAction || formAction.trim() === "YOUR_FORM_ENDPOINT" || (formAction && !formAction.includes("formspree.io/f/"))) {
-                 console.error("Form submission endpoint not configured or invalid.");
+             if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree") ) {
+                 console.error("Form submission endpoint is not configured correctly in HTML 'action' attribute.");
                  formStatus.className = 'alert alert-danger alert-dismissible fade show';
-                 formStatus.innerHTML = 'Form submission is currently unavailable. Please try again later or contact me directly. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                 bootstrap.Alert.getOrCreateInstance(formStatus);
-                 setTimeout(() => { bootstrap.Alert.getOrCreateInstance(formStatus)?.close(); }, FORM_STATUS_DISMISS_DELAY);
+                 formStatus.innerHTML = 'Form submission configuration error. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                 setTimeout(() => {
+                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                    if (alertInstance) alertInstance.close();
+                 }, FORM_STATUS_DISMISS_DELAY);
                  return;
              }
 
              submitButton.disabled = true;
              if(spinner) spinner.classList.remove('d-none');
-             const textNode = Array.from(submitButton.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
-             if(textNode) textNode.textContent = ' Sending... ';
-
-
+             submitButton.childNodes[spinner ? 1 : 0].textContent = ' Sending... ';
              formStatus.className = 'alert alert-info alert-dismissible fade show';
              formStatus.innerHTML = 'Sending your message... <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-             bootstrap.Alert.getOrCreateInstance(formStatus);
+
 
              try {
-                 const response = await fetch(formAction, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' }});
+                 const response = await fetch(formAction, {
+                     method: 'POST',
+                     body: formData,
+                     headers: { 'Accept': 'application/json' }
+                 });
+
                  if (response.ok) {
                      formStatus.className = 'alert alert-success alert-dismissible fade show';
                      formStatus.innerHTML = 'Message sent successfully! Thank you. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
                      contactForm.reset();
                      contactForm.classList.remove('was-validated');
                  } else {
-                     let errorMessage = 'An error occurred while sending the message.';
+                     let errorMessage = 'An error occurred during submission.';
                      try {
-                        const errorData = await response.json();
-                        errorMessage = errorData.error || errorData.errors?.map(err => err.message).join(', ') || `Server Error: ${response.status} ${response.statusText}`;
-                    } catch (parseError) {
-                        errorMessage = `Server Error: ${response.status} ${response.statusText}. Please try again.`;
-                    }
+                         const errorData = await response.json();
+                         errorMessage = errorData.error || errorData.message || `Server Error: ${response.status} ${response.statusText}`;
+                     } catch (parseError) {
+                         errorMessage = `Server Error: ${response.status} ${response.statusText}`;
+                     }
                      throw new Error(errorMessage);
                  }
+
              } catch (error) {
                  console.error('Form submission error:', error);
                  formStatus.className = 'alert alert-danger alert-dismissible fade show';
-                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} Please try again. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
              } finally {
                  submitButton.disabled = false;
                  submitButton.innerHTML = submitButtonOriginalText;
-                 bootstrap.Alert.getOrCreateInstance(formStatus);
-                 setTimeout(() => { bootstrap.Alert.getOrCreateInstance(formStatus)?.close(); }, FORM_STATUS_DISMISS_DELAY);
+                 setTimeout(() => {
+                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                    if (alertInstance) alertInstance.close();
+                 }, FORM_STATUS_DISMISS_DELAY);
              }
         });
     }
@@ -410,13 +328,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            AOS.refresh();
-        }, 250);
-    });
 
 }); // End DOMContentLoaded
