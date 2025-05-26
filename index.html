@@ -22,11 +22,6 @@
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbar-main" data-bs-offset="100">
 
-    {/* Loading screen and page wrapper removed as per your preference to revert */}
-    {/* <div id="loading-screen" class="loading-screen"> ... </div> */}
-    {/* <div id="page-wrapper" class="page-wrapper"> ... </div> */}
-
-
     <div id="vanta-bg"></div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -46,7 +41,6 @@
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
                         <li class="nav-item"><a class="nav-link" href="#my-approach">My Approach</a></li>
-                        {/* My Toolkit nav link was removed in previous reversion step */}
                         <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                         <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
                         <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
@@ -69,18 +63,16 @@
         <section id="hero" class="hero-section d-flex align-items-center text-center">
             <div class="container position-relative">
                 <div class="row justify-content-center">
-                    {/* Removed data-aos from this div, GSAP will handle entrance */}
-                    <div class="col-lg-10 col-xl-9" id="hero-content-block">
-                        {/* Added IDs for GSAP targeting */}
-                        <h1 class="display-1 fw-bold mb-3 hero-title" id="hero-name">Meet Patel</h1>
-                        <p class="lead mb-4 hero-subtitle" id="hero-job-title">Data Analyst | Transforming Data into Actionable Insights</p>
-                        <p class="hero-sub-detail mb-2" id="hero-specialization">
+                    <div class="col-lg-10 col-xl-9" data-aos="fade-up" data-aos-delay="100">
+                        <h1 class="display-1 fw-bold mb-3 hero-title">Meet Patel</h1>
+                        <p class="lead mb-4 hero-subtitle">Data Analyst | Transforming Data into Actionable Insights</p>
+                        <p class="hero-sub-detail mb-2">
                             Specializing in Cloud Platforms (AWS, Azure, GCP), Business Intelligence (Tableau, Power BI), and Advanced Analytics (SQL, Python, R).
                         </p>
-                        <p class="hero-sub-detail fst-italic mb-5" id="hero-tagline">
+                        <p class="hero-sub-detail fst-italic mb-5">
                             Let's uncover the stories your data wants to tell.
                         </p>
-                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3" id="hero-buttons">
+                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
                             <a href="meetpatelResume.pdf" class="btn btn-primary btn-lg" download aria-label="Download Meet Patel's Resume">
                                 Download Resume <i class="bi bi-download ms-2"></i>
                             </a>
@@ -93,7 +85,6 @@
             </div>
         </section>
 
-        {/* ... (rest of your sections: about, skills, my-approach, projects, experience, achievements, contact remain unchanged from the reverted version) ... */}
         <section id="about" class="section-padding">
             <div class="container">
                 <div class="section-title text-center" data-aos="fade-up">
