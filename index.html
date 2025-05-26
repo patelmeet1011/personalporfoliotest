@@ -58,7 +58,7 @@
                             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                             <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
                                 <button id="theme-toggle" class="btn theme-toggle-btn" type="button" aria-label="Switch to dark theme">
-                                    <i class="bi bi-moon-stars-fill"></i>
+                                    <i class="bi bi-moon-stars-fill"></i> {/* Icon will be updated by script.js */}
                                 </button>
                             </li>
                         </ul>
@@ -333,26 +333,15 @@
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
                                             <h4 class="timeline-title h5">Data Analyst</h4>
-                                            <p><small class="text-muted"><i class="bi bi-building me-1"></i> Mobiquity Inc., Waltham, MA | <i class="bi bi-calendar-event ms-2 me-1"></i> Sep 2024 – Present</small></p>
+                                            {/* User's version of dates */}
+                                            <p><small class="text-muted"><i class="bi bi-building me-1"></i> Mobiquity Inc., Waltham, MA | <i class="bi bi-calendar-event ms-2 me-1"></i> Jan 2024 – Present</small></p>
                                         </div>
                                         <div class="timeline-body small">
-                                            <p>Driving data-driven decisions by translating client requirements into actionable insights using SQL, BigQuery, and Redshift. Analyzing user engagement to enhance digital product performance, achieving a 15% increase in customer retention. Evaluating campaign effectiveness (Google Analytics, SQL) leading to 25% higher engagement and 20% ROI boost. Developing interactive Tableau/Power BI dashboards for real-time KPI tracking. Applying A/B testing and predictive modeling (Python/R) to improve campaign outcomes by up to 20%. Building scalable data workflows (Airflow, AWS Glue) and designing secure cloud solutions (AWS, Azure, GCP) while ensuring HIPAA/GDPR compliance.</p>
+                                            <p>Driving data-driven decisions by translating client requirements into actionable insights using SQL, BigQuery, and Redshift. Analyzing user engagement to enhance digital product performance, achieving a 15% increase in customer retention. Evaluating campaign effectiveness (Google Analytics, SQL) leading to 25% higher engagement and 20% ROI boost. Developing interactive Tableau/Power BI dashboards for real-time KPI tracking. Applying A/B testing and predictive modeling (Python/R) to improve campaign outcomes. Building scalable data workflows (Airflow, AWS Glue) and designing secure cloud solutions (AWS, Azure, GCP) while ensuring HIPAA/GDPR compliance.</p>
                                         </div>
                                     </div>
                                 </li>
                                 <li class="timeline-inverted" data-aos="fade-left" data-aos-anchor-placement="top-bottom">
-                                    <div class="timeline-badge secondary"><i class="bi bi-person-check-fill"></i></div>
-                                    <div class="timeline-panel">
-                                        <div class="timeline-heading">
-                                            <h4 class="timeline-title h5">Data Analyst Intern</h4>
-                                            <p><small class="text-muted"><i class="bi bi-building me-1"></i> Mobiquity Inc., Waltham, MA | <i class="bi bi-calendar-event ms-2 me-1"></i> Jan 2024 – Jun 2024</small></p>
-                                        </div>
-                                        <div class="timeline-body small">
-                                            <p>Assisted in gathering business requirements and translating them into data insights using tools like SQL and Excel. Supported user data analysis from mobile and web apps, identifying trends and recommending product improvements. Contributed to evaluating marketing campaign effectiveness with Google Analytics, providing suggestions for better engagement. Helped create reports and visualizations using Excel and Power BI, ensuring accurate data cleaning and adherence to data security best practices, including GDPR compliance.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li data-aos="fade-right" data-aos-anchor-placement="top-bottom">
                                     <div class="timeline-badge warning"><i class="bi bi-person-workspace"></i></div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
@@ -364,8 +353,7 @@
                                         </div>
                                     </div>
                                 </li>
-
-                                <li class="timeline-inverted" data-aos="fade-left" data-aos-anchor-placement="top-bottom">
+                                <li data-aos="fade-right" data-aos-anchor-placement="top-bottom">
                                     <div class="timeline-badge info"><i class="bi bi-mortarboard-fill"></i></div>
                                     <div class="timeline-panel">
                                         <div class="timeline-heading">
@@ -373,7 +361,7 @@
                                             <p><small class="text-muted"><i class="bi bi-building me-1"></i> University of Massachusetts Boston | <i class="bi bi-calendar-event ms-2 me-1"></i> Graduated Aug 2024</small></p>
                                         </div>
                                         <div class="timeline-body small">
-                                            <p>Concentration in Business Intelligence. GPA: 3.594/4.0. Relevant Coursework: Data Analysis & Visualization (IT 370), Database Management (IT 230L), Business Analytics, Cloud Computing. Recognized on Dean's List (Fall 2022 - Summer 2024).</p>
+                                            <p>Concentration in Business Intelligence. GPA: 3.594/4.0. Relevant Coursework: Data Analysis & Visualization, Database Management, Business Analytics, Cloud Computing. Recognized on Dean's List (Fall 2022 - Summer 2024).</p>
                                         </div>
                                     </div>
                                 </li>
@@ -392,7 +380,10 @@
                     </div>
                     <div class="row g-4 justify-content-center">
                         <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
-                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#achievementModal" data-achievement-name="Dean's List (UMass Boston, Fall 2022 - Summer 2024)" data-achievement-details="Consistently recognized for academic excellence during the period Fall 2022 – Summer 2024. This distinction was achieved through maintaining exceptional performance across all major coursework related to Information Technology and Business Intelligence.">
+                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                                 data-bs-toggle="modal" data-bs-target="#achievementModal"
+                                 data-achievement-name="Dean's List (UMass Boston, Fall 2022 - Summer 2024)"
+                                 data-achievement-details="Consistently recognized for academic excellence during the period Fall 2022 – Summer 2024. This distinction was achieved through maintaining exceptional performance across all major coursework related to Information Technology and Business Intelligence.">
                                 <div class="card-body text-center d-flex flex-column align-items-center">
                                     <div class="achievement-icon-wrapper mb-3 text-warning"><i class="bi bi-award-fill"></i></div>
                                     <h5 class="card-title fw-bold">Dean's List</h5>
@@ -401,7 +392,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
-                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#achievementModal" data-achievement-name="Google Analytics Certifications (Issued May 2023)" data-achievement-details="Completed Advanced Google Analytics, GA for Power Users, and GA for Beginners. Learned to track and analyze website performance, interpret user behavior data, configure goals, and leverage advanced features to improve website outcomes. Certificates valid through June 2027.">
+                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                                 data-bs-toggle="modal" data-bs-target="#achievementModal"
+                                 data-achievement-name="Google Analytics Certifications (Issued May 2023)"
+                                 data-achievement-details="Completed Advanced Google Analytics, GA for Power Users, and GA for Beginners. Learned to track and analyze website performance, interpret user behavior data, configure goals, and leverage advanced features to improve website outcomes. Certificates valid through June 2027.">
                                 <div class="card-body text-center d-flex flex-column align-items-center">
                                     <div class="achievement-icon-wrapper mb-3 text-primary"><i class="bi bi-google"></i></div>
                                     <h5 class="card-title fw-bold">Google Analytics Certified</h5>
@@ -411,7 +405,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
-                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#achievementModal" data-achievement-name="AWS Cloud Practitioner & Training (2022-2023)" data-achievement-details="Achieved AWS Certified Cloud Practitioner (CLF-C01) certification, validating foundational knowledge of AWS Cloud concepts and services. Supplemented with AWS Essential Training for Developers (LinkedIn Learning, May 2023).">
+                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                                 data-bs-toggle="modal" data-bs-target="#achievementModal"
+                                 data-achievement-name="AWS Cloud Practitioner & Training (2022-2023)"
+                                 data-achievement-details="Achieved AWS Certified Cloud Practitioner (CLF-C01) certification, validating foundational knowledge of AWS Cloud concepts and services. Supplemented with AWS Essential Training for Developers (LinkedIn Learning, May 2023).">
                                 <div class="card-body text-center d-flex flex-column align-items-center">
                                     <div class="achievement-icon-wrapper mb-3 text-info"><i class="bi bi-cloud-check-fill"></i></div>
                                     <h5 class="card-title fw-bold">AWS Cloud Practitioner</h5>
@@ -421,7 +418,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="400">
-                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#achievementModal" data-achievement-name="SQL Certifications (HackerRank, Sep 2024)" data-achievement-details="Validated advanced SQL skills through HackerRank assessments, covering complex joins, subqueries, window functions, and optimization (ID: C7D47011D1C2). Also holds the Intermediate SQL certification (ID: F1A816DF6B41).">
+                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                                 data-bs-toggle="modal" data-bs-target="#achievementModal"
+                                 data-achievement-name="SQL Certifications (HackerRank, Sep 2024)"
+                                 data-achievement-details="Validated advanced SQL skills through HackerRank assessments, covering complex joins, subqueries, window functions, and optimization (ID: C7D47011D1C2). Also holds the Intermediate SQL certification (ID: F1A816DF6B41).">
                                 <div class="card-body text-center d-flex flex-column align-items-center">
                                     <div class="achievement-icon-wrapper mb-3 text-success"><i class="bi bi-file-code-fill"></i></div>
                                     <h5 class="card-title fw-bold">SQL (HackerRank)</h5>
@@ -431,7 +431,10 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="500">
-                             <div class="card achievement-card flex-fill h-100" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#achievementModal" data-achievement-name="Other Training & Certs" data-achievement-details="Foundations: Data, Data, Everywhere (Google Coursera, Dec 2024); R Essential Training: Wrangling and Visualizing Data (LinkedIn Learning, May 2023); CompTIA Cybersecurity Analyst (CySA+) (May 2022).">
+                            <div class="card achievement-card flex-fill h-100" role="button" tabindex="0"
+                                 data-bs-toggle="modal" data-bs-target="#achievementModal"
+                                 data-achievement-name="Other Training & Certs"
+                                 data-achievement-details="Foundations: Data, Data, Everywhere (Google Coursera, Dec 2024); R Essential Training: Wrangling and Visualizing Data (LinkedIn Learning, May 2023); CompTIA Cybersecurity Analyst (CySA+) (May 2022).">
                                 <div class="card-body text-center d-flex flex-column align-items-center">
                                     <div class="achievement-icon-wrapper mb-3 text-secondary"><i class="bi bi-patch-check-fill"></i></div>
                                     <h5 class="card-title fw-bold">Other Training & Certs</h5>
