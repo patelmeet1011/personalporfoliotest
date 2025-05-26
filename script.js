@@ -36,15 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadingScreen = document.getElementById('loading-screen');
     const pageWrapper = document.getElementById('page-wrapper');
-    const transitionLinks = document.querySelectorAll('.transition-link'); // Links that trigger page transitions
+    const transitionLinks = document.querySelectorAll('.transition-link');
 
     // --- State & Constants ---
     const SCROLL_THRESHOLD_BACK_TO_TOP = 300;
     const FORM_STATUS_DISMISS_DELAY = 7000;
-    const FILTER_TRANSITION_DELAY = 350; // Adjusted to feel right with CSS
-    const PAGE_TRANSITION_DELAY = 500; // Corresponds to CSS transition duration
-    const DARK_ICON_CLASS = 'bi-moon-stars-fill';
-    const LIGHT_ICON_CLASS = 'bi-sun-fill';
+    const FILTER_TRANSITION_DELAY = 350;
+    const PAGE_TRANSITION_DELAY = 500;
+    const DARK_ICON_CLASS = 'bi-moon-stars-fill'; // Bootstrap icon class for dark mode
+    const LIGHT_ICON_CLASS = 'bi-sun-fill';     // Bootstrap icon class for light mode
     let vantaEffect = null;
     let loadFallbackTimeout = null;
 
@@ -69,16 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(loadFallbackTimeout);
         }
         hideLoadingScreen();
-        // Delay slightly to ensure loading screen is gone and content is ready
-        setTimeout(showPageContent, 50); // Short delay
+        setTimeout(showPageContent, 50);
     };
 
-    // Prefer window.onload for ensuring all assets are ready
     window.addEventListener('load', handlePageLoadAnimations);
-    // Fallback if onload is too slow or doesn't fire reliably
-    loadFallbackTimeout = setTimeout(handlePageLoadAnimations, 2500); // Max wait time
+    loadFallbackTimeout = setTimeout(handlePageLoadAnimations, 2500);
 
-    // --- Basic Page "Leaving" Animation ---
+    // --- Page "Leaving" Animation ---
     if (transitionLinks.length > 0 && pageWrapper) {
         transitionLinks.forEach(link => {
             link.addEventListener('click', function(event) {
@@ -86,16 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isExternal = this.hostname !== window.location.hostname || this.protocol !== window.location.protocol;
                 const isMailto = this.protocol === 'mailto:';
                 const isDownload = this.hasAttribute('download');
-                // Check if it's a same-page anchor link (e.g. href="#about" or href="index.html#about" on index.html)
                 const isSamePageAnchor = href.startsWith(window.location.origin + window.location.pathname + '#') || href.startsWith('#');
 
-                // Only apply to actual page navigations, not same-page anchors, external, mailto, or download links
                 if (href && !isExternal && !isMailto && !isDownload && !isSamePageAnchor) {
-                    // If it's an internal link to a different page
                     if (this.pathname !== window.location.pathname || (this.pathname === window.location.pathname && this.search !== window.location.search && !this.hash) ) {
                         event.preventDefault();
                         pageWrapper.classList.add('is-leaving');
-                        pageWrapper.classList.remove('fade-in'); // Ensure it fades out
+                        pageWrapper.classList.remove('fade-in');
 
                         setTimeout(() => {
                             window.location.href = href;
@@ -123,14 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.warn('LocalStorage is not available. Theme preference will not be saved.');
         }
-        initializeVantaBackground(); // Re-initialize Vanta with new theme colors
+        initializeVantaBackground();
     };
 
     const initializeVantaBackground = () => {
         if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') {
             if (vantaBackgroundElement) {
                 const currentTheme = htmlElement.getAttribute('data-bs-theme') || 'light';
-                vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? getCssVariable('--color-bg-dark') : '#001f3f'; // Dark blue for light theme Vanta BG
+                vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? getCssVariable('--color-bg-dark') : '#001f3f';
             }
             console.warn("Vanta.js or Three.js not loaded. Vanta background disabled.");
             return;
@@ -146,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let vantaColor, vantaBgColor;
 
         if (currentTheme === 'dark') {
-            vantaColor = parseInt(getCssVariable('--color-secondary').replace('#', '0x'), 16); // Teal for dark
-            vantaBgColor = parseInt(getCssVariable('--color-bg-dark').replace('#', '0x'), 16); // Vanta BG matches page BG
+            vantaColor = parseInt(getCssVariable('--color-secondary').replace('#', '0x'), 16);
+            vantaBgColor = parseInt(getCssVariable('--color-bg-dark').replace('#', '0x'), 16);
         } else {
-            vantaColor = parseInt(getCssVariable('--color-primary').replace('#', '0x'), 16); // Blue for light
-            vantaBgColor = 0x001f3f; // Dark blue for light theme Vanta BG for contrast
+            vantaColor = parseInt(getCssVariable('--color-primary').replace('#', '0x'), 16);
+            vantaBgColor = 0x001f3f;
         }
 
         try {
@@ -168,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 points: 11.00,
                 maxDistance: 20.00,
                 spacing: 16.00,
-                showDots: true // Or false, depending on preference
+                showDots: true
             });
         } catch (e) {
              console.error("Error initializing Vanta.NET:", e);
@@ -183,19 +177,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try { storedTheme = localStorage.getItem('theme'); } catch (e) { /* Ignore */ }
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-        applyTheme(initialTheme); // This will also call Vanta init
+        applyTheme(initialTheme);
     };
 
     // --- Initializations ---
-    initializeTheme(); // Sets theme and calls Vanta
+    initializeTheme();
 
     try {
         AOS.init({
             duration: 700,
             once: true,
-            offset: 80, // Adjusted for better trigger timing
+            offset: 80,
             easing: 'ease-out-cubic',
-            disable: 'mobile' // Or specific conditions like window.innerWidth < 768
+            disable: 'mobile'
         });
     } catch(e) { console.error("AOS Init failed:", e); }
 
@@ -222,8 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         window.addEventListener('scroll', toggleBackToTopVisibility);
-        toggleBackToTopVisibility(); // Initial check
-        backToTopButton.addEventListener('click', (e) => { // Smooth scroll for back to top
+        toggleBackToTopVisibility();
+        backToTopButton.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = backToTopButton.getAttribute('href');
             const targetElement = document.querySelector(targetId);
@@ -233,22 +227,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Corrected Modal Setup Function
     const setupModal = (modalElement, nameAttr, detailsAttr, nameId, detailsId) => {
         if (modalElement) {
             modalElement.addEventListener('show.bs.modal', (event) => {
                 try {
                     const button = event.relatedTarget;
                     const itemName = button.getAttribute(nameAttr) || 'Details';
+                    // Ensure achievementDetails can contain HTML for formatting
                     const itemDetails = button.getAttribute(detailsAttr) || 'No details provided.';
-                    const modalTitle = modalElement.querySelector(nameId);
-                    const modalBody = modalElement.querySelector(detailsId);
+                    const modalTitle = modalElement.querySelector(nameId); // Use # for ID selector
+                    const modalBody = modalElement.querySelector(detailsId); // Use # for ID selector
+
                     if (modalTitle) modalTitle.textContent = itemName;
-                    if (modalBody) modalBody.innerHTML = itemDetails; // Use innerHTML if details can contain HTML
+                    if (modalBody) modalBody.innerHTML = itemDetails; // Use innerHTML to render HTML details
                 } catch (e) { console.error(`Error populating modal (${nameId}):`, e); }
             });
         }
     };
 
+    // Call setupModal for both skill and achievement modals with correct ID selectors
     setupModal(skillModalElement, 'data-skill-name', 'data-skill-details', '#modal-skill-name', '#modal-skill-details');
     setupModal(achievementModalElement, 'data-achievement-name', 'data-achievement-details', '#modal-achievement-name', '#modal-achievement-details');
 
@@ -265,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
                  e.target.setAttribute('aria-pressed', 'true');
 
                  const filterValue = e.target.getAttribute('data-filter');
-                 projectGallery.classList.add('filtering'); // For potential global styling during filter
+                 projectGallery.classList.add('filtering');
 
                  projectItems.forEach(item => {
                      const tags = item.getAttribute('data-tags')?.split(',') || [];
@@ -276,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
                          item.classList.add('hide');
                      }
                  });
-                 // Refresh AOS after filtering animations complete
                  setTimeout(() => {
                     AOS.refresh();
                     projectGallery.classList.remove('filtering');
@@ -285,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Smooth Scroll for Internal Links & Active Nav Link Highlighting
     const navLinks = document.querySelectorAll('a.nav-link[href^="#"]');
     const sections = document.querySelectorAll('section[id]');
 
@@ -298,11 +294,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Intersection Observer for active section highlighting
     const observerOptions = {
-        root: null, // relative to document viewport
-        rootMargin: `-${(navbar?.offsetHeight || 70) + 20}px 0px 0px 0px`, // Adjust top margin for navbar height
-        threshold: 0.4 // 40% of section visible
+        root: null,
+        rootMargin: `-${(navbar?.offsetHeight || 70) + 20}px 0px 0px 0px`,
+        threshold: 0.4
     };
 
     const sectionObserver = new IntersectionObserver((entries, observer) => {
@@ -321,7 +316,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            // Check if it's a same-page anchor link
             if (href && href.startsWith('#') && href.length > 1) {
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
@@ -332,14 +326,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     window.scrollTo({ top: offsetPosition, behavior: "smooth" });
 
-                    // Close mobile navbar if open
                     const navbarToggler = document.querySelector('.navbar-toggler');
                     const navbarCollapse = document.querySelector('.navbar-collapse');
                     if (navbarToggler && !navbarToggler.classList.contains('collapsed') && navbarCollapse?.classList.contains('show')) {
                          const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse, {toggle: false});
                          if (bsCollapse) bsCollapse.hide();
                     }
-                    // Manually set active state on click for immediate feedback
                     changeNavActiveState(targetElement.id);
                 }
             }
@@ -356,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  contactForm.classList.add('was-validated');
                  formStatus.className = 'alert alert-warning alert-dismissible fade show';
                  formStatus.innerHTML = 'Please check the highlighted fields. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                 // Ensure alert can be dismissed
                  bootstrap.Alert.getOrCreateInstance(formStatus);
                  return;
              }
@@ -378,7 +369,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
              submitButton.disabled = true;
              if(spinner) spinner.classList.remove('d-none');
-             // Keep icon if present, just change text part
              const textNode = Array.from(submitButton.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
              if(textNode) textNode.textContent = ' Sending... ';
 
@@ -410,8 +400,8 @@ document.addEventListener('DOMContentLoaded', () => {
                  formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} Please try again. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
              } finally {
                  submitButton.disabled = false;
-                 submitButton.innerHTML = submitButtonOriginalText; // Restore original button text and icon
-                 bootstrap.Alert.getOrCreateInstance(formStatus); // Ensure it's re-initialized for auto-dismiss
+                 submitButton.innerHTML = submitButtonOriginalText;
+                 bootstrap.Alert.getOrCreateInstance(formStatus);
                  setTimeout(() => { bootstrap.Alert.getOrCreateInstance(formStatus)?.close(); }, FORM_STATUS_DISMISS_DELAY);
              }
         });
@@ -421,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
-    // Re-initialize AOS on window resize (debounced for performance)
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
