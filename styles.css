@@ -2,13 +2,29 @@
   ========================================
   Personal Portfolio Style Sheet for Meet Patel
   ========================================
+  TABLE OF CONTENTS
+  ----------------------------------------
   1.  Core Variables & Theming
+      1.1 Font Imports
+      1.2 Root Variables (Colors, Sizes, Shadows, Transitions)
+      1.3 Dark Theme Overrides
   2.  Base & Typography
+      2.1 HTML & Body Reset/Defaults
+      2.2 Headings & Paragraphs
+      2.3 Links
   3.  Layout & Sections
+      3.1 Container
+      3.2 Section Padding & Titles
+      3.3 Vanta Background
   4.  Navbar
   5.  Hero Section
   6.  Buttons
+      6.1 General Button Styles
+      6.2 Specific Button Types (Primary, Theme Toggle)
   7.  Cards
+      7.1 Base Card Styles
+      7.2 Skill & Achievement Cards
+      7.3 Project Cards
   8.  About Section
   9.  Project Filtering
   10. Timeline
@@ -16,17 +32,28 @@
   12. Contact Form
   13. Footer & Social Links
   14. Back to Top Button
-  15. Project/Blog Detail Pages
+  15. Project Detail Page & Sub-Page Common Styles
+      15.1 Main Images
+      15.2 List Groups
+      15.3 Sticky Sidebar & Back Link
+      15.4 Blog Page Specifics
   16. Badges
-  17. Accessibility
+  17. Accessibility Enhancements
+      17.1 Focus Visible Styles
+      17.2 Skip Link
   18. Responsive Adjustments
+      18.1 @media (max-width: 991.98px)
+      18.2 @media (max-width: 767.98px)
+      18.3 @media (max-width: 575.98px)
 */
 
 /* --- 1. Core Variables & Theming --- */
+/* 1.1 Font Imports */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
 
+/* 1.2 Root Variables (Colors, Sizes, Shadows, Transitions) */
 :root {
-    /* Color Palette */
+    /* Color Palette (Guide Section IV.B - Strategic Color Choice) */
     --color-primary: #4A90E2;
     --color-primary-rgb: 74, 144, 226;
     --color-secondary: #50E3C2;
@@ -46,10 +73,11 @@
     --color-card-bg-dark: #1E1E1E;
     --color-border-light: #dee2e6;
     --color-border-dark: #343a40;
+    --color-border-dark-rgb: 52, 58, 64;
 
     --gradient-primary: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
 
-    /* Sizing & Spacing */
+    /* Sizing & Spacing (Guide Section IV.A - Whitespace) */
     --navbar-height: 70px;
     --section-padding-y: 6rem;
     --container-max-width: 1140px;
@@ -65,7 +93,7 @@
     --hover-shadow-light: 0 8px 20px rgba(0, 0, 0, 0.12);
     --hover-shadow-dark: 0 8px 20px rgba(255, 255, 255, 0.08);
 
-    /* Transitions */
+    /* Transitions (Guide Section V.B - Subtle Interactions) */
     --transition-fast: 0.2s ease-out;
     --transition-medium: 0.4s ease-out;
     --transition-slow: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -80,7 +108,7 @@
     --hover-shadow: var(--hover-shadow-light);
 }
 
-/* Dark Theme Overrides */
+/* 1.3 Dark Theme Overrides (Guide Section IV.D - Dark Themes) */
 [data-bs-theme="dark"] {
     --color-text: var(--color-text-light);
     --color-text-muted: var(--color-text-muted-light);
@@ -97,75 +125,122 @@
     .timeline > li > .timeline-panel { background-color: var(--color-card-bg); border-color: var(--color-border); }
     .timeline::before { background-color: var(--color-border); }
     .timeline > li > .timeline-badge { border-color: var(--color-bg); }
+    #hero .btn-outline-light { border-color: rgba(255, 255, 255, 0.8); color: #FFFFFF; background-color: rgba(255, 255, 255, 0.15); }
+    #hero .btn-outline-light:hover { border-color: #fff; color: var(--color-text-dark); background-color: #fff; }
+    footer { background-color: #181818 !important; } /* Specific footer dark background */
+    .bg-light { background-color: var(--color-card-bg) !important; } /* Override Bootstrap's light bg in dark mode */
+    .animated-gradient-text {
+        background: linear-gradient(90deg, #a0a0a0, #ffffff, #a0a0a0); /* Adjusted for dark theme visibility */
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 4s linear infinite;
+     }
     .timeline > li > .timeline-panel:after { border-left-color: var(--color-card-bg); }
     .timeline > li.timeline-inverted > .timeline-panel:after { border-right-color: var(--color-card-bg); }
     .timeline > li > .timeline-panel:before { border-left-color: var(--color-border); }
     .timeline > li.timeline-inverted > .timeline-panel:before { border-right-color: var(--color-border); }
-    #hero .btn-outline-light { border-color: rgba(255, 255, 255, 0.8); color: #FFFFFF; background-color: rgba(255, 255, 255, 0.15); }
-    #hero .btn-outline-light:hover { border-color: #fff; color: var(--color-text-dark); background-color: #fff; }
-    footer { background-color: #181818 !important; }
-    .bg-light { background-color: var(--color-card-bg) !important; }
     .form-control { background-color: #2a2a2a; color: var(--color-text); border-color: var(--color-border); }
     .form-control::placeholder { color: var(--color-text-muted); }
-    .form-control:focus { background-color: #2a2a2a; color: var(--color-text); border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.3); }
+    .form-control:focus {
+        background-color: #2a2a2a;
+        color: var(--color-text);
+        border-color: var(--color-primary); /* Use primary color for focus in dark mode */
+        box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.3);
+    }
     .badge.text-bg-light { background-color: #495057 !important; color: #fff !important; border: 1px solid #6c757d !important;}
+    .badge.text-bg-info, .badge.text-bg-warning { color: #000 !important; } /* Ensure text visibility on these badges */
     .list-group-item { background-color: transparent; color: var(--color-text); border-color: var(--color-border) !important; }
+    .section-title .text-muted { color: var(--color-text-muted) !important; }
     .social-icon i { color: var(--color-text-muted); }
     .social-icon:hover i { color: var(--color-secondary); }
 }
 
 /* --- 2. Base & Typography --- */
+/* 2.1 HTML & Body Reset/Defaults (Guide Section IV.C - Readability First) */
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: var(--navbar-height);
+    scroll-padding-top: var(--navbar-height); /* Adjust scroll position for fixed navbar */
 }
 body {
     font-family: 'Inter', sans-serif;
-    padding-top: var(--navbar-height);
+    padding-top: var(--navbar-height); /* Prevent content from being hidden by fixed navbar */
     background-color: var(--color-bg);
     color: var(--color-text); 
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 1rem; /* Base font size (Guide Table 3 - Minimum Body Size 16px) */
+    line-height: 1.7; /* Base line height (Guide Table 3 - Line Spacing 1.5x) */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color var(--transition-medium), color var(--transition-medium);
 }
+
+/* 2.2 Headings & Paragraphs (Guide Section IV.C - Hierarchy) */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
+    font-family: 'Inter', sans-serif; /* Consistent font family */
+    font-weight: 700; /* Default bold for headings */
     color: var(--color-text); 
     margin-bottom: 1rem;
 }
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.2; } /* Responsive heading size */
+h2 { font-size: 2.25rem; line-height: 1.3; }
+h3 { font-size: 1.75rem; line-height: 1.4; }
+h4 { font-size: 1.25rem; line-height: 1.5; }
 p {
     margin-bottom: 1.25rem;
     color: var(--color-text);
 }
+/* Specific paragraph styling for readability in certain sections */
+#about p,
+#my-approach .section-title p {
+    font-size: clamp(1.0rem, 2.2vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--color-text);
+}
+[data-bs-theme="dark"] #about p,
+[data-bs-theme="dark"] #my-approach .section-title p {
+    opacity: 0.9;
+}
+#about .col-lg-8 p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-text) !important; /* Ensure clarity */
+}
+
+/* 2.3 Links */
 a {
     color: var(--color-link);
     text-decoration: none;
     transition: color var(--transition-fast);
 }
 a:hover {
-    color: var(--color-primary);
+    color: var(--color-primary); /* Fallback, darken/lighten function might not work with CSS variables directly in all contexts */
     text-decoration: underline;
 }
+[data-bs-theme="light"] a:hover {
+    color: #357abd; /* Manually darkened primary for light theme */
+}
 [data-bs-theme="dark"] a:hover {
-    color: var(--color-secondary);
+    color: #70e9d0; /* Manually lightened secondary for dark theme */
 }
 
+
 /* --- 3. Layout & Sections --- */
+/* 3.1 Container (Guide Section IV.A - Grid Systems/Structure) */
 .container {
     max-width: var(--container-max-width);
 }
+
+/* 3.2 Section Padding & Titles */
 .section-padding {
     padding-top: var(--section-padding-y);
     padding-bottom: var(--section-padding-y);
-    position: relative;
+    position: relative; /* For z-index stacking if needed */
     z-index: 1;
 }
 .section-title { margin-bottom: 3.5rem; }
 .section-title h2 { margin-bottom: 0.75rem; }
-.section-title p {
+.section-title p { /* Subtitle paragraph under section titles */
     font-size: 1.1rem;
     margin-bottom: 1.5rem;
     max-width: 650px;
@@ -182,30 +257,33 @@ a:hover {
     border-radius: var(--border-radius-pill);
     margin-top: 0.5rem;
 }
+
+/* 3.3 Vanta Background */
 #vanta-bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: -1; /* Behind all content */
 }
 
-/* --- 4. Navbar --- */
+
+/* --- 4. Navbar --- (Guide Section V.A - Intuitive Navigation) */
 .navbar {
     min-height: var(--navbar-height);
-    background-color: rgba(255, 255, 255, 0.9); 
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent for blur effect */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     transition: background-color var(--transition-medium), box-shadow var(--transition-medium);
-    border-bottom: 1px solid transparent;
-    z-index: 1030;
+    border-bottom: 1px solid transparent; /* Initial transparent border */
+    z-index: 1030; /* Bootstrap's standard for fixed navbars */
 }
 [data-bs-theme="light"].navbar { 
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm); /* Shadow for light theme navbar */
 }
 .navbar-brand.logo-container { padding: 0.25rem 0; margin-right: 1.5rem; display: flex; align-items: center; }
-.navbar-logo { height: 45px; width: auto; transition: transform var(--transition-medium); }
+.navbar-logo { height: 45px; width: auto; transition: transform var(--transition-medium) cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .navbar-brand.logo-container:hover .navbar-logo { transform: rotate(-8deg) scale(1.05); }
 .navbar .nav-link {
     margin: 0 0.75rem;
@@ -215,7 +293,7 @@ a:hover {
     color: var(--color-text-muted);
     transition: color var(--transition-fast);
 }
-.navbar .nav-link::after {
+.navbar .nav-link::after { /* Underline animation */
     content: '';
     position: absolute;
     bottom: 5px;
@@ -228,46 +306,110 @@ a:hover {
     transition: transform var(--transition-fast);
 }
 .navbar .nav-link:hover, .navbar .nav-link.active {
-    color: var(--color-text) !important;
+    color: var(--color-text) !important; /* Ensure override for active/hover state */
 }
 .navbar .nav-link:hover::after, .navbar .nav-link.active::after {
     transform: scaleX(1);
     transform-origin: bottom left;
 }
 
-/* --- 5. Hero Section --- */
+
+/* --- 5. Hero Section --- (Guide Section IV.A - Visual Hierarchy, IV.D - Imagery) */
 .hero-section {
     position: relative;
     color: var(--color-text-light); 
-    background-color: transparent; 
+    background-color: transparent; /* Vanta.js handles the actual background */
     min-height: 100vh;
     display: flex;
     align-items: center;
     text-align: center;
-    overflow: hidden;
+    overflow: hidden; /* Prevent scrollbars from Vanta if it overflows slightly */
     z-index: 1;
 }
-.hero-title {
+.hero-section .container {
+    z-index: 2; /* Ensure text is above Vanta's canvas element */
+    position: relative;
+}
+.hero-title { /* For "Meet Patel" */
     font-weight: 900;
     margin-bottom: 1rem;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #FFFFFF;
+    font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font size */
+    color: #FFFFFF; /* Solid white for max clarity against animated background */
     text-shadow: 0px 0px 8px rgba(var(--color-primary-rgb), 0.25), 
                  0px 0px 15px rgba(var(--color-secondary-rgb), 0.15), 
-                 0px 1px 2px rgba(0,0,0,0.6); 
+                 0px 1px 2px rgba(0,0,0,0.6); /* Subtle text shadow for depth */
+    letter-spacing: -0.5px; 
 }
-.hero-subtitle {
+.animated-gradient-text { /* Used for specific highlighted text, if any */
+    font-weight: 900;
+    background: var(--gradient-primary);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+.hero-subtitle { /* "Entry-Level IT Professional..." */
     text-shadow: 0px 1px 3px rgba(0,0,0,0.7);
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1.5rem;
-    color: rgba(248, 249, 250, 0.95) !important;
+    color: rgba(248, 249, 250, 0.95) !important; /* High contrast for readability */
     line-height: 1.6;
 }
+.hero-sub-detail { /* For "Specializing in..." and "Let's uncover..." */
+    font-size: clamp(1.0rem, 2.2vw, 1.15rem);
+    line-height: 1.7;
+    opacity: 1; 
+    color: rgba(240, 240, 240, 0.9) !important; 
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.7);
+    margin-bottom: 1rem;
+}
+.hero-sub-detail.fst-italic { 
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    opacity: 1; 
+    color: rgba(235, 235, 235, 0.9) !important; 
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.6);
+    margin-bottom: 2.5rem;
+}
+.hero-section .btn {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-md), 0px 2px 5px rgba(0,0,0,0.3); /* Enhanced shadow for hero buttons */
+    transition: all var(--transition-fast), transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+.hero-section .btn:hover {
+     box-shadow: var(--hover-shadow), 0px 4px 10px rgba(0,0,0,0.4);
+     transform: translateY(-3px) scale(1.02);
+}
+.hero-section .btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-text-light);
+}
+.hero-section .btn-primary:hover {
+    background-color: #3c82d1; /* Manually lightened */
+    border-color: #3c82d1;
+}
+.hero-section .btn-outline-light { 
+    border-color: rgba(255,255,255,0.8);
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.15); /* Glassmorphism effect */
+    backdrop-filter: blur(2px);
+}
+.hero-section .btn-outline-light:hover {
+    border-color: #fff;
+    color: var(--color-text-dark); 
+    background-color: #fff;
+}
+
 
 /* --- 6. Buttons --- */
+/* 6.1 General Button Styles (Guide Section V.D - Clear CTAs) */
 .btn {
     border-radius: var(--border-radius-pill);
     padding: 0.6rem 1.5rem;
@@ -280,51 +422,80 @@ a:hover {
     transform: translateY(-3px);
     box-shadow: var(--hover-shadow);
 }
+.btn:focus {
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.4) !important; /* Ensure focus styles */
+}
+/* 6.2 Specific Button Types (Primary, Theme Toggle) */
 .btn-primary {
     background-color: var(--color-primary);
     border-color: var(--color-primary);
     color: var(--color-text-light);
 }
 .btn-primary:hover {
-    background-color: #3a7cc4; /* Darken manually */
+    background-color: #3a7cc4; /* Manually darkened */
     border-color: #3a7cc4;
+    color: var(--color-text-light);
+}
+.btn-outline-secondary {
+     border-color: var(--color-border);
+     color: var(--color-text-muted);
+}
+.btn-outline-secondary:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
     color: var(--color-text-light);
 }
 .theme-toggle-btn {
     background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-text-muted);
-    border-radius: 50%;
+    border-radius: 50%; /* Circular button */
     width: 40px;
     height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.1rem;
     transition: all var(--transition-fast);
 }
 .theme-toggle-btn:hover {
     color: var(--color-text);
     border-color: var(--color-text);
     transform: rotate(10deg) scale(1.1);
+    background-color: rgba(var(--color-primary-rgb), 0.1); /* Subtle background on hover */
 }
 
-/* --- 7. Cards --- */
+
+/* --- 7. Cards --- (Guide Section IV.A - Simplicity and Clarity) */
+/* 7.1 Base Card Styles */
 .card {
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-sm);
     transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium);
     background-color: var(--color-card-bg);
-    overflow: hidden;
+    overflow: hidden; /* Ensure content like images respects border radius */
 }
+.d-flex .card { display: flex; flex-direction: column; height: 100%; } /* For equal height cards in flex containers */
+.flex-fill { flex: 1 1 auto; }
 .card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) perspective(1000px) rotateX(1deg) rotateY(1deg); /* Subtle 3D hover effect */
     box-shadow: var(--hover-shadow);
     border-color: var(--color-primary);
 }
+
+/* 7.2 Skill & Achievement Cards */
+.skill-card, .achievement-card {
+    border-left: 5px solid transparent; /* Accent border for hover */
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium), border-left-color var(--transition-medium);
+}
 .skill-card:hover, .achievement-card:hover {
     border-left-color: var(--color-primary);
-    transform: translateY(-8px) translateX(3px);
+    transform: translateY(-8px) translateX(3px) perspective(1000px) rotateX(1deg) rotateY(1deg);
+}
+.skill-card[data-bs-toggle="modal"],
+.achievement-card[data-bs-toggle="modal"] {
+    cursor: pointer; /* Indicate interactivity for modal triggers */
 }
 .skill-icon-wrapper, .achievement-icon-wrapper {
     font-size: 2.5rem;
@@ -336,23 +507,35 @@ a:hover {
 .achievement-card:hover .achievement-icon-wrapper {
     transform: scale(1.15) rotate(-3deg);
 }
+.card-title { font-weight: 700; margin-bottom: 0.5rem; }
+.card-text { color: var(--color-text-muted); } 
+
+/* 7.3 Project Cards */
+.project-card { position: relative; } /* For potential absolute positioned elements inside */
 .project-card .project-image {
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
+    aspect-ratio: 16 / 10; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure image covers the area */
     transition: transform var(--transition-slow);
 }
 .project-card:hover .project-image {
-    transform: scale(1.08);
+    transform: scale(1.08); /* Zoom effect on image */
 }
+.project-card .card-body {
+    padding: 1.5rem;
+}
+.project-card .card-title {
+    font-size: 1.2rem;
+}
+
 
 /* --- 8. About Section --- */
 .about-image {
     max-width: 280px;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1/1; /* Circular image */
     object-fit: cover;
     border-radius: 50%;
-    border: 6px solid var(--color-bg);
-    box-shadow: 0 0 0 4px var(--color-primary), var(--shadow-lg);
+    border: 6px solid var(--color-bg); /* Border that matches background for "cutout" effect */
+    box-shadow: 0 0 0 4px var(--color-primary), var(--shadow-lg); /* Double shadow effect */
     transition: transform var(--transition-medium), box-shadow var(--transition-medium);
 }
 .about-image:hover {
@@ -360,34 +543,61 @@ a:hover {
     box-shadow: 0 0 0 6px var(--color-primary), var(--shadow-lg);
 }
 
-/* --- 9. Project Filtering --- */
-.project-gallery.filtering {
-    transition: all 0.3s ease-in-out;
+
+/* --- 9. Project Filtering --- (Guide Section V.B - Interactive Elements) */
+#project-filters .filter-btn {
+    margin: 0.25rem 0.3rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+    border-width: 1px;
+    transition: all var(--transition-fast);
+}
+#project-filters .filter-btn:hover {
+    transform: translateY(-2px);
+    background-color: rgba(var(--color-primary-rgb), 0.1); /* Subtle hover background */
+}
+#project-filters .filter-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--color-primary);
+}
+.project-gallery {
+    display: flex; /* For filtering animation */
+    flex-wrap: wrap;
+}
+.project-gallery.filtering { /* Class added by JS during filtering */
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition for filtering */
 }
 .project-item {
     opacity: 1;
     transform: scale(1);
     transition: opacity var(--transition-medium), transform var(--transition-medium), width var(--transition-medium), padding var(--transition-medium), margin var(--transition-medium);
+    transform-origin: center bottom; /* Animation origin */
 }
-.project-item.hide {
+.project-item.hide { /* Class for hidden items */
     opacity: 0;
     transform: scale(0.9);
-    pointer-events: none;
+    pointer-events: none; /* Prevent interaction with hidden items */
+    flex-basis: 0 !important; /* Collapse item */
     width: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
+    border: none !important;
     overflow: hidden;
 }
 
+
 /* --- 10. Timeline --- */
-.timeline { list-style: none; padding: 20px 0; position: relative; }
-.timeline:before {
+.timeline { list-style: none; padding: 20px 0 20px; position: relative; }
+.timeline:before { /* Central timeline bar */
     top: 0; bottom: 0; position: absolute; content: " "; width: 4px;
-    background: linear-gradient(to bottom, transparent, var(--color-primary), transparent);
-    left: 50%; margin-left: -2px;
+    background: linear-gradient(to bottom, transparent, var(--color-primary), transparent); /* Gradient bar */
+    left: 50%; margin-left: -2px; border-radius: 3px;
 }
 .timeline > li { margin-bottom: 40px; position: relative; }
-.timeline > li:before, .timeline > li:after { content: " "; display: table; }
+.timeline > li:before, .timeline > li:after { content: " "; display: table; } /* Clearfix */
 .timeline > li:after { clear: both; }
 .timeline > li > .timeline-panel {
     width: 46%; float: left;
@@ -407,52 +617,78 @@ a:hover {
 .timeline > li > .timeline-badge {
     color: #fff; width: 55px; height: 55px;
     font-size: 1.5em; text-align: center; position: absolute;
-    top: 30px; left: 50%; margin-left: -27.5px;
+    top: 30px; left: 50%; margin-left: -27.5px; /* Center badge on the line */
     background-color: var(--color-secondary);
-    z-index: 10;
+    z-index: 10; /* Above the line */
     border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    border: 4px solid var(--color-bg);
-    box-shadow: 0 0 0 4px var(--color-secondary);
-    transition: all var(--transition-medium);
+    border: 4px solid var(--color-bg); /* "Cutout" effect */
+    box-shadow: 0 0 0 4px var(--color-secondary); /* Outer ring */
+    transition: all var(--transition-medium) cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .timeline > li:hover > .timeline-badge {
-    transform: scale(1.15) rotate(-5deg);
-    box-shadow: 0 0 15px rgba(var(--color-secondary-rgb), 0.7);
+    transform: scale(1.15) rotate(-5deg); /* Playful hover effect */
+    box-shadow: 0 0 15px rgba(var(--color-secondary-rgb), 0.7), 0 0 0 5px var(--color-secondary);
 }
-.timeline > li.timeline-inverted > .timeline-panel { float: right; }
+.timeline > li > .timeline-badge.primary { background-color: var(--color-primary); box-shadow: 0 0 0 4px var(--color-primary); }
+.timeline > li > .timeline-badge.warning { background-color: var(--color-accent); box-shadow: 0 0 0 4px var(--color-accent); }
+.timeline > li > .timeline-badge.info { background-color: #36b9cc; box-shadow: 0 0 0 4px #36b9cc; }
+.timeline > li.timeline-inverted > .timeline-panel { float: right; } /* Alternate sides */
+/* Timeline panel arrows */
 .timeline > li > .timeline-panel:before {
-    position: absolute; top: 36px; right: -10px;
+    position: absolute; top: 36px; right: -10px; display: inline-block;
     border-top: 10px solid transparent;
     border-left: 10px solid var(--color-border);
     border-right: 0 solid var(--color-border);
     border-bottom: 10px solid transparent; content: " ";
+    transition: border-color var(--transition-medium);
 }
 .timeline > li > .timeline-panel:after {
-    position: absolute; top: 37px; right: -9px;
+    position: absolute; top: 37px; right: -9px; display: inline-block;
     border-top: 9px solid transparent;
     border-left: 9px solid var(--color-card-bg);
     border-right: 0 solid var(--color-card-bg);
     border-bottom: 9px solid transparent; content: " ";
+    transition: border-color var(--transition-medium), border-left-color var(--transition-medium);
 }
 .timeline > li.timeline-inverted > .timeline-panel:before { border-left-width: 0; border-right-width: 10px; left: -10px; right: auto; }
 .timeline > li.timeline-inverted > .timeline-panel:after { border-left-width: 0; border-right-width: 9px; left: -9px; right: auto; }
 
+
 /* --- 11. My Analytical Approach Section --- */
+#my-approach .card.approach-card {
+    border-top: 4px solid transparent; /* Accent border for hover */
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
 .approach-card:hover {
-    border-top-color: var(--color-primary);
+    transform: translateY(-10px) perspective(1200px) rotateX(2deg) rotateY(2deg);
+    box-shadow: var(--hover-shadow);
+    border-color: var(--color-primary); /* Ensure all borders change */
+    border-top-color: var(--color-primary); /* Specific for the top border */
 }
 .approach-icon-wrapper {
     font-size: 2.8rem;
     color: var(--color-primary);
     margin-bottom: 1.25rem;
-    transition: transform var(--transition-medium), color var(--transition-fast);
+    transition: transform var(--transition-medium) cubic-bezier(0.34, 1.56, 0.64, 1), color var(--transition-fast);
 }
 .approach-card:hover .approach-icon-wrapper {
     transform: scale(1.2) rotate(-5deg);
     color: var(--color-secondary);
 }
+.approach-card .card-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+}
+.approach-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+}
 
-/* --- 12. Contact Form --- */
+
+/* --- 12. Contact Form --- (Guide Section V.D - Contact Form) */
 .form-control {
     border-radius: var(--border-radius-md);
     padding: 0.8rem 1rem;
@@ -462,19 +698,33 @@ a:hover {
 .form-control:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-bg); /* Ensure background color is consistent on focus */
+    color: var(--color-text); /* Ensure text color is consistent on focus */
 }
-#form-status { display: none; transition: opacity var(--transition-medium); }
+.form-label { font-weight: 500; margin-bottom: 0.5rem; }
+#form-status { display: none; transition: opacity var(--transition-medium); font-weight: 500; border-radius: var(--border-radius-md); padding: 1rem; margin-bottom: 1.5rem; }
 #form-status.show { display: block; }
+#submit-button .spinner-border { vertical-align: middle; } /* Align spinner in button */
+
 
 /* --- 13. Footer & Social Links --- */
 footer {
     padding: 2.5rem 0;
-    background-color: #f1f3f5;
-    transition: background-color var(--transition-medium);
+    background-color: #f1f3f5; /* Default light theme footer */
+    color: var(--color-text-muted);
+    transition: background-color var(--transition-medium), color var(--transition-medium);
     border-top: 1px solid var(--color-border-light);
 }
+[data-bs-theme="dark"] footer {
+    background-color: #181818; /* Specific dark theme footer */
+    color: var(--color-text-muted-light);
+    border-top: 1px solid var(--color-border-dark);
+}
+.footer-links a { color: inherit; margin: 0 0.75rem; text-decoration: none; }
+.footer-links a:hover { color: var(--color-primary); text-decoration: underline; }
+[data-bs-theme="dark"] .footer-links a:hover { color: var(--color-secondary); }
+
+.social-links { margin-top: 2rem; }
 .social-icon {
     font-size: 1.8rem;
     margin: 0 0.75rem;
@@ -482,6 +732,7 @@ footer {
     display: inline-block;
     transition: transform var(--transition-fast), color var(--transition-fast);
 }
+.social-icon i { transition: none; } /* Prevent icon-specific transitions interfering */
 .social-icon:hover {
     color: var(--color-primary);
     transform: translateY(-4px) scale(1.1);
@@ -490,38 +741,61 @@ footer {
     color: var(--color-secondary);
 }
 
+
 /* --- 14. Back to Top Button --- */
 .back-to-top-btn {
     position: fixed; bottom: 25px; right: 25px;
     width: 45px; height: 45px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem;
     background-color: var(--color-primary);
     color: var(--color-text-light);
     box-shadow: var(--shadow-md);
-    opacity: 0; visibility: hidden; z-index: 1050;
-    transform: translateY(15px);
-    transition: opacity var(--transition-medium), visibility var(--transition-medium), transform var(--transition-medium);
+    opacity: 0; visibility: hidden; z-index: 1050; /* High z-index to be on top */
+    transform: translateY(15px) scale(0.9); /* Initial hidden state for animation */
+    transition: opacity var(--transition-medium), visibility var(--transition-medium), transform var(--transition-medium), background-color var(--transition-medium);
 }
-.back-to-top-btn.show {
+.back-to-top-btn.show { /* Class added by JS to show button */
     opacity: 0.8; visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 .back-to-top-btn:hover {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.1); /* Subtle hover scale */
+    background-color: #3a7cc4; /* Manually darkened primary */
 }
 
-/* --- 15. Project/Blog Detail Pages --- */
+
+/* --- 15. Project Detail Page & Sub-Page Common Styles --- */
+/* 15.1 Main Images */
 .project-main-image, .page-main-image { 
     max-width: 100%; height: auto; object-fit: cover;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-md);
     margin-bottom: 2rem;
 }
+/* 15.2 List Groups (e.g., for achievements on project pages) */
+.project-detail-section .list-group-item,
+#education-details .list-group-item,
+.blog-content .list-group-item { 
+    background-color: transparent;
+    border: none;
+    padding-left: 0; padding-right: 0;
+    border-bottom: 1px solid var(--color-border) !important; /* Important to override Bootstrap potentially */
+    color: var(--color-text);
+}
+.project-detail-section .list-group-flush > .list-group-item:last-child,
+#education-details .list-group-flush > .list-group-item:last-child,
+.blog-content .list-group-flush > .list-group-item:last-child {
+    border-bottom-width: 0 !important; /* Remove border from last item */
+}
+/* 15.3 Sticky Sidebar & Back Link (for project/academic/blog pages) */
 .sticky-sidebar {
     position: sticky;
-    top: calc(var(--navbar-height, 70px) + 40px);
+    top: calc(var(--navbar-height, 70px) + 40px); /* Navbar height + extra offset */
+    z-index: 100;
+    height: fit-content; /* Ensure it doesn't overflow its container */
 }
 .back-link {
     font-size: 0.95rem;
@@ -530,12 +804,15 @@ footer {
     transition: color var(--transition-fast);
 }
 .back-link:hover { color: var(--color-text); }
+
+/* 15.4 Blog Page Specifics */
 .blog-content img { 
-    max-height: 450px; 
+    max-height: 450px; /* Max height for blog images */
     object-fit: cover;
-    margin: 1rem 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
-.blog-content h2 { 
+.blog-content h2 { /* Subheadings within blog post */
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
     color: var(--color-primary);
@@ -543,6 +820,34 @@ footer {
 [data-bs-theme="dark"] .blog-content h2 {
     color: var(--color-secondary);
 }
+.blog-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.blog-content li {
+    margin-bottom: 0.5rem;
+}
+.role-comparison-card { /* Special card styling for blog post */
+    background-color: var(--color-card-bg);
+    border-left: 4px solid var(--color-accent);
+    padding: 1rem;
+    border-radius: var(--border-radius-sm);
+}
+.blog-post-preview .card-title a { /* Links for blog previews on a potential blog listing page */
+    color: var(--color-text);
+    text-decoration: none;
+}
+.blog-post-preview:hover .card-title a {
+    color: var(--color-link); 
+}
+.blog-post-preview { 
+    border-left: 5px solid transparent;
+    transition: transform var(--transition-medium), box-shadow var(--transition-medium), border-color var(--transition-medium), border-left-color var(--transition-medium);
+}
+.blog-post-preview:hover {
+    border-left-color: var(--color-secondary); 
+}
+
 
 /* --- 16. Badges --- */
 .badge {
@@ -550,37 +855,76 @@ footer {
     font-size: 0.8rem;
     font-weight: 500;
     border-radius: var(--border-radius-pill);
-    margin: 0.1rem;
+    margin: 0.1rem; /* Spacing between badges */
+}
+.badge.border { border: 1px solid var(--color-border) !important; }
+
+
+/* --- 17. Accessibility Enhancements --- (Guide Section V.C) */
+/* 17.1 Focus Visible Styles for Keyboard Navigation */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex="0"]:focus-visible {
+    outline: 3px solid rgba(var(--color-primary-rgb), 0.5); /* Clear focus indicator */
+    outline-offset: 2px;
+    box-shadow: none !important; /* Remove other shadows on focus to ensure outline is visible */
 }
 
-/* --- 17. Accessibility --- */
+/* 17.2 Skip Link for Keyboard Users */
 .skip-link {
     position: absolute;
-    top: -100px;
+    top: -100px; /* Hide off-screen */
     left: 10px;
     background: var(--color-primary);
     color: var(--color-text-light);
     padding: 10px 15px;
-    z-index: 1100;
-    transition: top 0.3s;
+    z-index: 1100; /* Ensure it's above other elements */
+    transition: top 0.3s ease-in-out;
     border-radius: var(--border-radius-md);
+    font-weight: 500;
 }
 .skip-link:focus {
-    top: 10px;
+    top: 10px; /* Bring into view on focus */
 }
 
-/* --- 18. Responsive Adjustments --- */
+
+/* --- 18. Responsive Adjustments --- (Guide Section V.C - Mobile Responsiveness) */
+/* 18.1 @media (max-width: 991.98px) - Large devices (desktops, less than 992px) / Tablets */
 @media (max-width: 991.98px) {
-    .navbar .nav-link::after { display: none; }
-    .sticky-sidebar { position: static; }
+    .navbar-nav { align-items: flex-start !important; } /* Align toggled nav items to start */
+    .navbar .nav-link { margin: 0.5rem 0; padding: 0.5rem 0; }
+    .navbar .nav-link::after { display: none; } /* Hide underline animation on smaller screens */
+    .hero-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+    .hero-subtitle { font-size: clamp(1rem, 4vw, 1.2rem); }
+    .sticky-sidebar { position: static; } /* Remove sticky behavior on smaller screens */
 }
 
+/* 18.2 @media (max-width: 767.98px) - Medium devices (tablets, less than 768px) */
 @media (max-width: 767.98px) {
-    .section-padding { --section-padding-y: 4rem; }
-    .timeline:before { left: 27.5px; }
-    .timeline > li > .timeline-panel { width: calc(100% - 70px); float: right; }
-    .timeline > li > .timeline-badge { left: 0; margin-left: 0; }
-    .timeline > li > .timeline-panel:before { border-left-width: 0; border-right-width: 10px; left: -10px; right: auto; }
-    .timeline > li > .timeline-panel:after { border-left-width: 0; border-right-width: 9px; left: -9px; right: auto; }
-    .timeline > li.timeline-inverted > .timeline-panel { float: right; }
+    .section-padding { --section-padding-y: 4rem; } /* Reduce section padding */
+    .section-title { margin-bottom: 2.5rem; }
+    .about-image { max-width: 200px; border-width: 4px; box-shadow: 0 0 0 3px var(--color-primary), var(--shadow-md); }
+
+    /* Timeline adjustments for smaller screens */
+    .timeline:before { left: 27.5px; margin-left: -2px; }
+    .timeline > li > .timeline-panel { width: calc(100% - 70px); float: right; padding: 1.5rem; }
+    .timeline > li > .timeline-badge { left: 0; margin-left: 0; top: 30px; width: 55px; height: 55px;}
+    .timeline > li > .timeline-panel:before { border-left-width: 0; border-right-width: 10px; left: -10px; right: auto; top: 36px; }
+    .timeline > li > .timeline-panel:after { border-left-width: 0; border-right-width: 9px; left: -9px; right: auto; top: 37px; }
+    .timeline > li.timeline-inverted > .timeline-panel { float: right; } /* All panels on right for small screens */
+    .timeline > li.timeline-inverted > .timeline-panel:before,
+    .timeline > li.timeline-inverted > .timeline-panel:after {
+        border-left-width: 0; border-right-width: 10px; left: -10px; right: auto;
+    }
+     .timeline > li.timeline-inverted > .timeline-panel:after {
+         border-right-width: 9px; left: -9px;
+     }
+    .contact-form .row > div { margin-bottom: 1rem; } /* Stack form elements */
+}
+
+/* 18.3 @media (max-width: 575.98px) - Small devices (landscape phones, less than 576px) */
+@media (max-width: 575.98px) {
+     h1 { font-size: 2rem; } /* Further reduce heading sizes */
+     h2 { font-size: 1.75rem; }
+     .hero-section .btn { margin-bottom: 0.75rem; display: block; width: 80%; margin-left: auto; margin-right: auto; } /* Stack hero buttons */
+     .hero-section .btn + .btn { margin-left: auto !important; } /* Reset margin for stacked buttons */
+     #project-filters .btn { display: block; width: 100%; margin: 0.5rem 0; } /* Stack filter buttons */
 }
