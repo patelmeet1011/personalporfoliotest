@@ -2,14 +2,15 @@
  * @file script.js
  * @description Handles all interactive elements and dynamic functionality for Meet Patel's portfolio.
  * This includes theme toggling, Vanta.js background, AOS animations, smooth scrolling,
- * project filtering, modal interactions, contact form submission, and more.
+ * project filtering, modal interactions, contact form submission, and more, all designed
+ * to contribute to an exceptional user experience (Guide Section V).
  * @author Meet Patel
  * @see {@link https://patelmeet1011.github.io/personalporfoliotest/|Live Portfolio}
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Element Selectors (Cached for performance) ---
+    // --- Element Selectors (Cached for performance and clarity) ---
     const htmlElement = document.documentElement;
     const themeToggleButton = document.getElementById('theme-toggle');
     const backToTopButton = document.getElementById('back-to-top');
@@ -26,18 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const vantaBackgroundElement = document.getElementById('vanta-bg');
 
     // --- Constants & Configuration ---
-    /** @const {number} Scroll threshold in pixels to show the 'Back to Top' button. */
+    /** @const {number} Scroll threshold in pixels to show the 'Back to Top' button (UX Enhancement - Guide Section V). */
     const SCROLL_THRESHOLD_BACK_TO_TOP = 300;
     /** @const {number} Delay in milliseconds before dismissing contact form status messages. */
     const FORM_STATUS_DISMISS_DELAY = 7000;
-    /** @const {number} Transition delay in milliseconds for project filtering animations. */
+    /** @const {number} Transition delay in milliseconds for project filtering animations (UX Enhancement - Guide Section V.B). */
     const FILTER_TRANSITION_DELAY = 300;
     /** @const {string} HTML for the dark mode icon (moon). */
     const DARK_ICON = '<i class="bi bi-moon-stars-fill"></i>';
     /** @const {string} HTML for the light mode icon (sun). */
     const LIGHT_ICON = '<i class="bi bi-sun-fill"></i>';
     
-    /** * @type {object|null} Holds the Vanta.js instance to allow for destruction and recreation.
+    /** * @type {object|null} Holds the Vanta.js instance. This allows for destruction and recreation 
+     * if needed, for example, when themes change or if the effect needs to be dynamically altered.
      * @see {@link https://www.vantajs.com/|Vanta.js}
      */
     let vantaEffect = null;
@@ -45,9 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Core Functions ---
 
     /**
-     * Applies the selected theme to the HTML element, updates the toggle button icon,
-     * stores the theme preference in localStorage, and re-initializes the Vanta.js background.
-     * @param {string} theme - The theme to apply ('light' or 'dark').
+     * Applies the selected theme ('light' or 'dark') to the HTML element.
+     * Updates the theme toggle button's icon and ARIA label accordingly.
+     * Stores the selected theme in localStorage for persistence across sessions.
+     * Re-initializes the Vanta.js background to match the new theme.
+     * (Supports Guide Section IV.A - Consistency, IV.B - Color Palette, IV.D - Dark Themes)
+     * @param {string} theme - The theme to apply (e.g., 'light', 'dark').
      */
     const applyTheme = (theme) => {
         htmlElement.setAttribute('data-bs-theme', theme);
@@ -60,31 +65,32 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.warn('LocalStorage is not available. Theme preference will not be saved.');
         }
-        // Re-initialize Vanta background to match the new theme
-        initializeVantaBackground();
+        initializeVantaBackground(); // Ensure Vanta background updates with theme
     };
 
     /**
-     * Initializes or re-initializes the Vanta.js animated background.
-     * It destroys any existing instance before creating a new one to reflect theme changes.
-     * Handles cases where Vanta.js or Three.js libraries might not be loaded.
+     * Initializes or re-initializes the Vanta.js animated background effect.
+     * This function checks for the existence of VANTA and THREE libraries.
+     * If an old Vanta effect exists, it's destroyed before creating a new one.
+     * The parameters for the Vanta effect (color, backgroundColor) are chosen based on the current theme.
+     * (Supports Guide Section IV.D - Backgrounds, V.B - Interactive Elements)
      */
     const initializeVantaBackground = () => {
         if (typeof VANTA === 'undefined' || typeof THREE === 'undefined') {
-            console.error("Vanta.js or Three.js library not found.");
-            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg-dark)';
+            console.error("Vanta.js or Three.js library not found. Animated background will not load.");
+            if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = 'var(--color-bg-dark)'; // Fallback static color
             return;
         }
         if (!vantaBackgroundElement) {
-            // console.error("Vanta background element (#vanta-bg) not found."); // Optional: less verbose logging
+            // console.warn("Vanta background element (#vanta-bg) not found in the DOM."); // Optional: for debugging
             return;
         }
 
-        if (vantaEffect) {
+        if (vantaEffect) { // If an instance already exists, destroy it first
             try {
                 vantaEffect.destroy();
             } catch (e) {
-                console.error("Error destroying Vanta instance:", e);
+                console.error("Error destroying existing Vanta instance:", e);
             }
             vantaEffect = null;
         }
@@ -100,55 +106,67 @@ document.addEventListener('DOMContentLoaded', () => {
                 minHeight: 200.00,
                 minWidth: 200.00,
                 scale: 1.00,
-                scaleMobile: 1.00,
-                color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2, // Mint for dark, Blue for light
-                backgroundColor: currentTheme === 'dark' ? 0x121212 : 0x001f3f, // Dark for dark, Dark Blue for light
+                scaleMobile: 1.00, // Maintain scale on mobile
+                color: currentTheme === 'dark' ? 0x50e3c2 : 0x4a90e2, // Theme-dependent line color
+                backgroundColor: currentTheme === 'dark' ? 0x121212 : 0x001f3f, // Theme-dependent background color
                 points: 11.00,
                 maxDistance: 20.00,
                 spacing: 16.00
             });
         } catch (e) {
              console.error("Error initializing Vanta.NET:", e);
+             // Fallback if Vanta fails to initialize
              if (vantaBackgroundElement) vantaBackgroundElement.style.backgroundColor = currentTheme === 'dark' ? '#121212' : '#001f3f';
         }
     };
 
     /**
-     * Initializes the website's theme based on localStorage preference or system settings.
-     * Calls applyTheme() which in turn calls initializeVantaBackground().
+     * Sets the initial theme of the website on page load.
+     * It prioritizes a theme stored in localStorage. If no preference is found,
+     * it defaults to the user's system preference (dark or light mode).
      */
     const initializeTheme = () => {
         let storedTheme = null;
         try {
             storedTheme = localStorage.getItem('theme');
-        } catch (e) { /* LocalStorage might be disabled or unavailable */ }
+        } catch (e) { /* LocalStorage might be disabled or unavailable, proceed with defaults */ }
+        
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
-        applyTheme(initialTheme);
+        applyTheme(initialTheme); // This will also call initializeVantaBackground
     };
 
-    // --- Initialization Sequence ---
-    initializeTheme(); // Sets theme and Vanta background
+    // --- Initialization Sequence on DOMContentLoaded ---
+    initializeTheme(); // Set theme and Vanta background first
 
-    // Initialize Animate on Scroll (AOS) library
+    // Initialize Animate on Scroll (AOS) library for subtle reveal animations
+    // (Supports Guide Section V.B - Meaningful Interactions)
     try {
-        AOS.init({
-            duration: 700,
-            once: true,
-            offset: 80,
-            easing: 'ease-out-cubic',
-            disable: 'mobile' // Consider enabling for mobile if effects are subtle
-        });
-    } catch(e) { console.error("AOS Init failed:", e); }
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 700,       // Animation duration
+                once: true,          // Whether animation should happen only once - while scrolling down
+                offset: 80,          // Offset (in px) from the original trigger point
+                easing: 'ease-out-cubic', // Default easing for AOS animations
+                disable: 'mobile'    // Disables AOS on mobile devices if desired (can be 'phone', 'tablet', 'mobile')
+            });
+        } else {
+            console.warn('AOS library not found.');
+        }
+    } catch(e) { console.error("AOS Initialization failed:", e); }
 
-    // Initialize Bootstrap Tooltips
+    // Initialize Bootstrap Tooltips for all elements with data-bs-toggle="tooltip"
     try {
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    } catch(e) { console.error("Bootstrap Tooltip init failed:", e); }
+        if (typeof bootstrap !== 'undefined' && typeof bootstrap.Tooltip !== 'undefined') {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        } else {
+            console.warn('Bootstrap Tooltip component not found.');
+        }
+    } catch(e) { console.error("Bootstrap Tooltip initialization failed:", e); }
 
 
-    // --- Event Listeners ---
+    // --- Event Listeners Setup ---
 
     // Theme Toggle Button Click Handler
     if (themeToggleButton) {
@@ -158,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Back to Top Button Scroll Handler
+    // Back to Top Button Scroll Handler: Shows/hides button based on scroll position
     if (backToTopButton) {
         const toggleBackToTopVisibility = () => {
             if (window.pageYOffset > SCROLL_THRESHOLD_BACK_TO_TOP) {
@@ -168,43 +186,56 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         window.addEventListener('scroll', toggleBackToTopVisibility);
-        toggleBackToTopVisibility(); // Initial check
+        toggleBackToTopVisibility(); // Initial check on page load
     }
 
-    // Skill Modal Population
+    // Skill Modal Population: Dynamically sets content when a skill modal is shown
     if (skillModalElement) {
         skillModalElement.addEventListener('show.bs.modal', (event) => {
             try {
-                const button = event.relatedTarget;
+                const button = event.relatedTarget; // The element that triggered the modal (the skill card)
                 const skillName = button.getAttribute('data-skill-name') || 'Skill Details';
-                const skillDetails = button.getAttribute('data-skill-details') || 'No details provided.';
-                const modalTitle = skillModalElement.querySelector('#modal-skill-name');
-                const modalBody = skillModalElement.querySelector('#modal-skill-details');
+                const skillDetails = button.getAttribute('data-skill-details') || 'No details provided for this skill.';
+                
+                const modalTitle = skillModalElement.querySelector('#modal-skill-name'); // Span for the name
+                const modalBody = skillModalElement.querySelector('#modal-skill-details'); // Paragraph for details
+                
                 if (modalTitle) modalTitle.textContent = skillName;
                 if (modalBody) modalBody.textContent = skillDetails;
-            } catch (e) { console.error("Error populating skill modal:", e); }
+            } catch (e) { 
+                console.error("Error populating skill modal:", e);
+                const modalBody = skillModalElement.querySelector('#modal-skill-details');
+                if (modalBody) modalBody.textContent = 'Could not load skill details.';
+            }
         });
     }
 
-    // Achievement Modal Population
+    // Achievement Modal Population: Dynamically sets content for achievement modals
     if (achievementModalElement) {
         achievementModalElement.addEventListener('show.bs.modal', (event) => {
              try {
                 const button = event.relatedTarget;
                 const achievementName = button.getAttribute('data-achievement-name') || 'Achievement Details';
-                const achievementDetails = button.getAttribute('data-achievement-details') || 'Details about this achievement.';
+                const achievementDetails = button.getAttribute('data-achievement-details') || 'Details about this achievement are not available.';
+                
                 const modalTitle = achievementModalElement.querySelector('#modal-achievement-name');
                 const modalBody = achievementModalElement.querySelector('#modal-achievement-details');
+
                 if (modalTitle) modalTitle.textContent = achievementName;
                 if (modalBody) modalBody.textContent = achievementDetails;
-            } catch (e) { console.error("Error populating achievement modal:", e); }
+            } catch (e) { 
+                console.error("Error populating achievement modal:", e);
+                const modalBody = achievementModalElement.querySelector('#modal-achievement-details');
+                if (modalBody) modalBody.textContent = 'Could not load achievement details.';
+            }
         });
     }
 
-    // Project Filtering Logic
+    // Project Filtering Logic (Guide Section V.B - Interactive Elements)
     if (projectFilterContainer && projectItems.length > 0 && projectGallery) {
         projectFilterContainer.addEventListener('click', (e) => {
              if (e.target && e.target.classList.contains('filter-btn')) {
+                 // Update active button state
                  const currentActive = projectFilterContainer.querySelector('.filter-btn.active');
                  if (currentActive) {
                      currentActive.classList.remove('active');
@@ -214,45 +245,48 @@ document.addEventListener('DOMContentLoaded', () => {
                  e.target.setAttribute('aria-pressed', 'true');
 
                  const filterValue = e.target.getAttribute('data-filter');
-                 projectGallery.classList.add('filtering'); // For CSS transitions
+                 projectGallery.classList.add('filtering'); // Add class for CSS transition
 
+                 // Filter items
                  projectItems.forEach(item => {
                      const tags = item.getAttribute('data-tags')?.split(',') || [];
                      const shouldShow = filterValue === 'all' || tags.includes(filterValue);
-                     if (shouldShow) {
-                         item.classList.remove('hide');
-                     } else {
-                         item.classList.add('hide');
-                     }
+                     
+                     item.classList.toggle('hide', !shouldShow); // 'hide' class handles the visual hiding via CSS
                  });
 
+                 // Refresh AOS after filtering and transition to ensure animations work on newly shown items
                  setTimeout(() => {
-                     if (typeof AOS !== 'undefined') AOS.refresh(); // Refresh AOS for newly visible items
+                     if (typeof AOS !== 'undefined') AOS.refresh();
                      projectGallery.classList.remove('filtering');
                  }, FILTER_TRANSITION_DELAY);
              }
         });
     }
 
-    // Smooth Scrolling for Internal Page Links
+    // Smooth Scrolling for Internal Page Links (Guide Section V.A - Intuitive Navigation)
     document.querySelectorAll('a.nav-link[href^="#"], a.footer-link[href^="#"], a.navbar-brand[href^="#"], a.back-to-top-btn[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            // Ensure it's a valid same-page anchor
             if (href && href.startsWith('#') && href.length > 1) { 
                 const targetElement = document.querySelector(href);
                 if (targetElement) {
                     e.preventDefault();
-                    const navbarHeight = navbar?.offsetHeight || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height').replace('px', '')) || 70;
+                    // Calculate offset considering the fixed navbar height
+                    const navbarActualHeight = navbar?.offsetHeight || parseInt(getComputedStyle(document.documentElement).getPropertyValue('--navbar-height').replace('px', '')) || 70;
                     const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+                    const offsetPosition = elementPosition + window.pageYOffset - navbarActualHeight;
                     
-                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
 
-                    // Collapse navbar on mobile after click
+                    // If on mobile and navbar is open, close it after clicking a nav link
                     const navbarToggler = document.querySelector('.navbar-toggler');
                     const navbarCollapse = document.querySelector('.navbar-collapse');
                     if (navbarToggler && !navbarToggler.classList.contains('collapsed') && navbarCollapse?.classList.contains('show')) {
+                         // Use Bootstrap's Collapse instance to properly hide
                          const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse, {toggle: false});
                          bsCollapse.hide();
                     }
@@ -261,89 +295,95 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Contact Form Submission Handler
+    // Contact Form Submission Handler (Guide Section V.D - Contact Form)
     if (contactForm && formStatus && submitButton) {
         contactForm.addEventListener('submit', async (e) => {
-             e.preventDefault();
-             e.stopPropagation();
+             e.preventDefault(); // Prevent default form submission
+             e.stopPropagation(); // Stop event bubbling
 
-             // Bootstrap validation
+             // Perform Bootstrap client-side validation first
              if (!contactForm.checkValidity()) {
-                 contactForm.classList.add('was-validated');
-                 formStatus.className = 'alert alert-warning alert-dismissible fade show';
-                 formStatus.innerHTML = 'Please check the highlighted fields. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                 contactForm.classList.add('was-validated'); // Show Bootstrap validation styles
+                 formStatus.className = 'alert alert-warning alert-dismissible fade show mt-3'; // Use Bootstrap alert classes
+                 formStatus.innerHTML = 'Please fill out all required fields correctly. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                 formStatus.style.display = 'block'; // Ensure it's visible
                  return;
              }
-             contactForm.classList.add('was-validated'); // Show validation styles if all good before submit
+             contactForm.classList.add('was-validated');
 
              const formData = new FormData(contactForm);
-             const formAction = contactForm.getAttribute('action'); // Get endpoint from HTML
-             const submitButtonOriginalText = submitButton.innerHTML;
+             const formAction = contactForm.getAttribute('action'); // Endpoint from HTML
+             const submitButtonOriginalText = submitButton.innerHTML; // Save original button content
              const spinner = submitButton.querySelector('.spinner-border');
 
-             // Critical: Ensure formAction is configured before attempting submission
-             if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree") ) { // Basic check for Formspree
-                 console.error("Contact form submission endpoint is not configured correctly in HTML 'action' attribute.");
-                 formStatus.className = 'alert alert-danger alert-dismissible fade show';
-                 formStatus.innerHTML = 'Form submission is currently unavailable. Please try again later or contact me directly via email. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                 setTimeout(() => {
-                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
-                    if (alertInstance) alertInstance.close();
-                 }, FORM_STATUS_DISMISS_DELAY);
+             // IMPORTANT: Ensure the formAction is correctly set in index.html for services like Formspree
+             if (!formAction || formAction === "YOUR_FORM_ENDPOINT" || !formAction.includes("formspree.io")) { // Be more specific for Formspree
+                 console.error("Contact form 'action' attribute is not configured for a service like Formspree.");
+                 formStatus.className = 'alert alert-danger alert-dismissible fade show mt-3';
+                 formStatus.innerHTML = 'Form submission is currently unavailable. Please contact me directly via email. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                 formStatus.style.display = 'block';
+                 setTimeout(() => { if(formStatus.style.display !== 'none') bootstrap.Alert.getOrCreateInstance(formStatus)?.close(); }, FORM_STATUS_DISMISS_DELAY);
                  return;
              }
 
-             // Update UI for submission attempt
+             // Update UI to indicate submission is in progress
              submitButton.disabled = true;
              if(spinner) spinner.classList.remove('d-none');
-             // Assuming the text content is the first child node if spinner is present, otherwise the only child.
-             submitButton.childNodes[spinner ? 1 : 0].textContent = ' Sending... '; 
-             formStatus.className = 'alert alert-info alert-dismissible fade show';
+             // Preserve icon if present, only change text node
+             const textNode = Array.from(submitButton.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
+             if(textNode) textNode.textContent = ' Sending... ';
+             
+             formStatus.className = 'alert alert-info alert-dismissible fade show mt-3';
              formStatus.innerHTML = 'Sending your message... <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-
+             formStatus.style.display = 'block';
 
              try {
                  const response = await fetch(formAction, {
                      method: 'POST',
                      body: formData,
-                     headers: { 'Accept': 'application/json' } // Formspree requirement
+                     headers: { 'Accept': 'application/json' } // Required by Formspree
                  });
 
                  if (response.ok) {
-                     formStatus.className = 'alert alert-success alert-dismissible fade show';
-                     formStatus.innerHTML = 'Message sent successfully! Thank you. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
-                     contactForm.reset();
-                     contactForm.classList.remove('was-validated');
+                     formStatus.className = 'alert alert-success alert-dismissible fade show mt-3';
+                     formStatus.innerHTML = 'Message sent successfully! Thank you for reaching out. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                     contactForm.reset(); // Clear the form
+                     contactForm.classList.remove('was-validated'); // Reset validation state
                  } else {
-                     // Attempt to parse error from Formspree or use generic message
-                     let errorMessage = 'An error occurred during submission.';
+                     // Try to get a more specific error message from Formspree
+                     let errorMessage = 'An error occurred. Please try again.';
                      try {
                          const errorData = await response.json();
-                         errorMessage = errorData.error || errorData.message || `Server Error: ${response.status} ${response.statusText}`;
-                     } catch (parseError) {
-                         // If parsing fails, stick to the status text
-                         errorMessage = `Server Error: ${response.status} ${response.statusText}`;
-                     }
-                     throw new Error(errorMessage); // Trigger the catch block
+                         if (errorData && errorData.errors && errorData.errors.length > 0) {
+                            errorMessage = errorData.errors.map(err => err.message).join(', ');
+                         } else if (errorData && errorData.error) {
+                            errorMessage = errorData.error;
+                         } else {
+                            errorMessage = `Server responded with status: ${response.status}`;
+                         }
+                     } catch (parseError) { /* Stick with generic server error if parsing fails */ }
+                     throw new Error(errorMessage);
                  }
 
              } catch (error) {
-                 console.error('Form submission error:', error);
-                 formStatus.className = 'alert alert-danger alert-dismissible fade show';
-                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} Please try again or contact me via email. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
+                 console.error('Contact form submission error:', error);
+                 formStatus.className = 'alert alert-danger alert-dismissible fade show mt-3';
+                 formStatus.innerHTML = `Oops! ${error.message || 'A network error occurred.'} Please try again or contact me directly. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
              } finally {
                  submitButton.disabled = false;
-                 submitButton.innerHTML = submitButtonOriginalText; // Restore original button text and icon
-                 // Auto-dismiss the status message after a delay
+                 submitButton.innerHTML = submitButtonOriginalText; // Restore original button content (including icon)
+                 // Auto-dismiss the status message
                  setTimeout(() => {
-                    const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
-                    if (alertInstance) alertInstance.close();
+                    if(formStatus.style.display !== 'none') {
+                        const alertInstance = bootstrap.Alert.getOrCreateInstance(formStatus);
+                        if (alertInstance) alertInstance.close();
+                    }
                  }, FORM_STATUS_DISMISS_DELAY);
              }
         });
     }
 
-    // Update current year in footer (if element exists)
+    // Update current year in footer
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
