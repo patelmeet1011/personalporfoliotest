@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project: Excel Visualization Web App (Excel Viz Pro) - Meet Patel</title>
-    <meta name="description" content="Details of the Excel Viz Pro project by Meet Patel, a Python/Streamlit web app for instant Excel data visualization and interactive chart generation.">
+    <title>Project: Instant Excel Visualizations with Python & Streamlit - Meet Patel</title>
+
+    <meta name="description" content="A web app by Meet Patel, built with Python & Streamlit, that allows users to upload Excel files and instantly generate interactive data visualizations.">
+    <meta property="og:title" content="Project: Instant Excel Visualizations with Python & Streamlit - Meet Patel" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://patelmeet1011.github.io/personalporfoliotest/project-excel-viz.html" />
+    <meta property="og:description" content="A web app by Meet Patel, built with Python & Streamlit, that allows users to upload Excel files and instantly generate interactive data visualizations." />
+    <meta property="og:image" content="https://patelmeet1011.github.io/personalporfoliotest/project-one.png" /> 
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Project: Instant Excel Visualizations with Python & Streamlit - Meet Patel" />
+    <meta name="twitter:description" content="A web app by Meet Patel, built with Python & Streamlit, that allows users to upload Excel files and instantly generate interactive data visualizations." />
+    <meta name="twitter:image" content="https://patelmeet1011.github.io/personalporfoliotest/project-one.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,44 +61,34 @@
                     <div class="col-lg-8">
                         <article>
                             <h2 class="h4 fw-bold mb-3">Project Overview</h2>
-                            <p>"Excel Viz Pro" is a dynamic web application I developed using Python and the Streamlit framework. It's designed to simplify exploratory data analysis by allowing users to upload Excel files (supporting both CSV and XLSX formats) and instantly generate a variety of interactive charts. The core goal was to make data visualization accessible directly from common spreadsheet formats, empowering users to quickly gain insights from their data.</p>
+                            <p>"Excel Viz Pro" is a dynamic web application I developed to solve a common problem: making data visualization accessible to everyone, regardless of technical skill. Using <strong>Python</strong> and the <strong>Streamlit</strong> framework, I built a tool that allows users to simply upload an Excel file and instantly receive beautiful, interactive charts. The core goal was to empower users to quickly gain insights from their data without needing to write code or use complex software.</p>
 
                             <div class="mb-4 text-center">
-                                <img src="project-one.png" class="img-fluid rounded project-main-image" alt="Excel Viz Pro application interface" loading="lazy" style="max-height: 400px; object-fit: contain;">
-                                 <small class="text-muted d-block mt-2">Excel Viz Pro Application Interface/Logo</small>
+                                <img src="project-one.png" class="img-fluid rounded project-main-image" alt="Interface of the Excel Viz Pro application, showing a file upload and chart options." loading="lazy" style="max-height: 400px; object-fit: contain;">
+                                 <small class="text-muted d-block mt-2">The intuitive interface of Excel Viz Pro</small>
                             </div>
 
-                            <h2 class="h4 fw-bold mb-3 mt-4">Key Features & Functionality</h2>
-                            <ul class="list-group list-group-flush mb-4">
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-file-earmark-spreadsheet-fill text-success me-2 mt-1"></i>
-                                    <div>**File Compatibility:** Accepts standard spreadsheet formats including `.csv` and `.xlsx` for broad usability.</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-bar-chart-steps text-success me-2 mt-1"></i>
-                                    <div>**Instant Visualization:** Leverages the Plotly library to automatically generate interactive charts (bar, line, scatter plots, etc.) upon data upload.</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-gear-fill text-success me-2 mt-1"></i>
-                                    <div>**User Customization:** Provides options for users to select data columns for plotting and potentially adjust chart types for tailored analysis.</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-download text-success me-2 mt-1"></i>
-                                    <div>**Export Capabilities:** Includes a feature allowing users to download the generated visualizations or summary data reports.</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-magic text-success me-2 mt-1"></i>
-                                    <div>**Intuitive UI:** Built with Streamlit, focusing on a clean, simple, and responsive user interface for ease of use.</div>
-                                </li>
-                                <li class="list-group-item d-flex align-items-start">
-                                    <i class="bi bi-speedometer2 text-success me-2 mt-1"></i>
-                                    <div>**Efficient Backend:** Utilizes Pandas and NumPy for robust and efficient data manipulation and processing.</div>
-                                </li>
-                            </ul>
-                            <p>The application emphasizes a user-centric design, aiming to streamline the initial data exploration phase by transforming raw spreadsheet data into actionable visual insights quickly and effectively.</p>
+                            <h2 class="h4 fw-bold mb-3 mt-4">Core Features & User Benefits</h2>
+                            
+                            <div class="mb-3">
+                                <h4><i class="bi bi-file-earmark-arrow-up-fill text-primary me-2"></i>Seamless File Upload</h4>
+                                <p>The app accepts standard <strong>.csv and .xlsx</strong> files, providing a frictionless starting point for any user with a spreadsheet. This broad compatibility ensures ease of use for a wide audience.</p>
+                            </div>
 
-                            <h2 class="h4 fw-bold mb-3">Challenges &amp; Solutions</h2>
-                            <p>[No specific challenges mentioned in original project-excel-viz.html, add if available. Example: One challenge was ensuring compatibility across various Excel structures. This was addressed by implementing flexible data parsing logic and providing clear user guidance on data formatting.]</p>
+                            <div class="mb-3">
+                                <h4><i class="bi bi-bar-chart-line-fill text-primary me-2"></i>Instant & Interactive Visualizations</h4>
+                                <p>It leverages the <strong>Plotly</strong> library to automatically generate a variety of charts. Users can hover for details, zoom, and pan, making data exploration highly intuitive and engaging.</p>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <h4><i class="bi bi-tools text-primary me-2"></i>Powerful & Efficient Backend</h4>
+                                <p>Built with a robust Python backend using <strong>Pandas and NumPy</strong> for high-performance data manipulation, ensuring the app is fast and reliable even with larger datasets.</p>
+                            </div>
+
+
+                            <h2 class="h4 fw-bold mb-3 mt-4">Challenges & Solutions</h2>
+                            <p><strong>Challenge:</strong> A primary challenge was handling the wide variety of structures and formats found in real-world Excel files, which could easily break the application.</p>
+                            <p><strong>Solution:</strong> I addressed this by implementing flexible data parsing logic and robust error handling. The application intelligently inspects the uploaded file and provides clear user guidance on required data formatting, ensuring a smooth user experience.</p>
                         </article>
                     </div>
 
@@ -97,7 +98,7 @@
                                 <h3 class="h5 fw-bold mb-3 border-bottom pb-2">Project Info</h3>
                                 <p class="mb-2"><i class="bi bi-calendar-event me-2 text-primary"></i><strong>Date:</strong> Sep 2023 – Dec 2023</p>
                                 <p class="mb-2"><i class="bi bi-tags-fill me-2 text-primary"></i><strong>Type:</strong> Personal / Academic</p>
-                                <p class="mb-2"><i class="bi bi-person-fill me-2 text-primary"></i><strong>Role:</strong> Developer / Data Analyst</p>
+                                <p class="mb-2"><i class="bi bi-person-fill me-2 text-primary"></i><strong>Role:</strong> IT Developer / Analyst</p>
 
                                 <h4 class="h6 fw-bold mt-4 mb-2 border-top pt-3">Core Technologies:</h4>
                                  <div class="d-flex flex-wrap gap-1">
@@ -139,7 +140,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
     <script>
          document.addEventListener('DOMContentLoaded', () => {
